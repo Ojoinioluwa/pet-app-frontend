@@ -1,25 +1,133 @@
 import images from '@/constants/images'
-import React from 'react'
+import { router } from 'expo-router'
+import React, { useEffect, useState } from 'react'
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
+interface HealthRecord {
+  _id: string
+  type: string
+  title: string
+  description: string
+  date: string
+  veterinarian?: string
+  cost?: number
+}
+
+interface Reminder {
+  _id: string
+  type: string
+  title: string
+  description: string
+  date: string
+  veterinarian?: string
+}
+
 const PetInfo = () => {
+  const [healthRecords, setHealthRecords] = useState<HealthRecord[]>([])
+  const [reminders, setReminders] = useState<Reminder[]>([])
+
+  const fetchPetData = async () => {
+    // Replace with actual API calls
+    const fakeHealth = [
+      {
+        _id: '1',
+        type: 'Vaccination',
+        title: 'Rabies Shot',
+        description: 'Yearly rabies vaccination',
+        date: '2025-04-10',
+        veterinarian: 'Dr. A',
+        cost: 25,
+      },
+    ]
+
+    const fakeReminders = [
+      {
+        _id: '1',
+        type: 'Checkup',
+        title: 'Monthly Vet Visit',
+        description: 'Routine check',
+        date: '2025-05-20',
+        veterinarian: 'Dr. B',
+      },
+    ]
+
+    setHealthRecords(fakeHealth)
+    setReminders(fakeReminders)
+  }
+
+  useEffect(() => {
+    fetchPetData()
+  }, [])
+
   return (
-    <SafeAreaView className='flex-1 bg-gray-200 px-3 py-5'>
-        <ScrollView className='flex-1'>
-            <Text className='text-blue-950 text-5xl font-rubix-medium mb-5'> Mandy</Text>
-            <View className='w-full px-5'>
-              <Image source={images.LandingPage} className='w-full h-[200] rounded-lg'/>
-              <View className='flex-row gap-3'>
-                <TouchableOpacity className='border-blue-950 border bg-white rounded-lg p-3 mt-5 w-1/2'>
-                  <Text className='text-blue-950 text-center text-lg font-rubix-medium'>Add Record</Text>
-                </TouchableOpacity>
-                <TouchableOpacity className='border-blue-950 border bg-white rounded-lg p-3 mt-5 w-1/2'>
-                  <Text className='text-blue-950 text-center text-lg font-rubix-medium'>Add Record</Text>
-                </TouchableOpacity>
+    <SafeAreaView className="flex-1 bg-gray-200 px-3 py-5">
+      <ScrollView className="flex-1">
+        <View className="w-full px-5">
+          {/* Pet Profile */}
+          <View className="flex-row items-center gap-3">
+            <Image source={images.LandingPage} className="w-[150] h-[150] rounded-full" />
+            <View className="flex-1">
+              <Text className="text-blue-950 text-4xl font-rubix-medium">Mandy</Text>
+              <View className="flex-row items-center gap-2">
+                <Text className="text-blue-950 text-lg font-rubix-light">Dog</Text>
+                <Text className="text-blue-950 text-lg font-rubix-light">5 years</Text>
               </View>
+              <Text className="text-blue-950 text-lg font-rubix-light">Golden Retriever</Text>
             </View>
-        </ScrollView>
+          </View>
+
+          {/* Action Buttons */}
+          <View className="flex-row gap-3">
+            <TouchableOpacity
+              className="border-blue-950 border bg-white rounded-lg p-3 mt-5 w-1/2"
+              onPress={() => router.push("/AddHealthRecord")}
+            >
+              <Text className="text-blue-950 text-center text-lg font-rubix-medium">+ Health Record</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="border-blue-950 border bg-white rounded-lg p-3 mt-5 w-1/2"
+              onPress={() => router.push("/HealthHistory")}
+            >
+              <Text className="text-blue-950 text-center text-lg font-rubix-medium">View History</Text>
+            </TouchableOpacity>
+          </View>
+          <View className="flex-row gap-3">
+            <TouchableOpacity
+              className="bg-blue-950 rounded-lg p-3 mt-5 w-1/2"
+              onPress={() => router.push("/AddReminder")}
+            >
+              <Text className="text-white text-center text-lg font-rubix-medium">Add Reminder</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-blue-950 rounded-lg p-3 mt-5 w-1/2"
+              onPress={() => router.push("/Reminders")}
+            >
+              <Text className="text-white text-center text-lg font-rubix-medium">View Reminders</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Health Records Preview */}
+          <Text className="mt-6 mb-2 text-blue-950 text-xl font-rubix-semibold">Recent Health Records</Text>
+          {healthRecords.map((record) => (
+            <View key={record._id} className="bg-white rounded-lg p-3 mb-3">
+              <Text className="text-lg font-rubix-semibold text-blue-950">{record.title}</Text>
+              <Text className="text-sm text-gray-600">{record.type} — {new Date(record.date).toDateString()}</Text>
+              <Text className="text-sm text-gray-600">{record.description}</Text>
+            </View>
+          ))}
+
+          {/* Upcoming Reminders Preview */}
+          <Text className="mt-6 mb-2 text-blue-950 text-xl font-rubix-semibold">Upcoming Reminders</Text>
+          {reminders.map((reminder) => (
+            <View key={reminder._id} className="bg-white rounded-lg p-3 mb-3">
+              <Text className="text-lg font-rubix-semibold text-blue-950">{reminder.title}</Text>
+              <Text className="text-sm text-gray-600">{reminder.type} — {new Date(reminder.date).toDateString()}</Text>
+              <Text className="text-sm text-gray-600">{reminder.description}</Text>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }

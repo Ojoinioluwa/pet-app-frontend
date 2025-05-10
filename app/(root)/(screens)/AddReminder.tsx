@@ -9,7 +9,7 @@ const AddReminder = () => {
         const [date, setDate] = useState(new Date());
         const [show, setShow] = useState(false);
 
-  const onChange = (event, selectedDate: Date) => {
+  const onChange = (event: any, selectedDate: Date) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios'); 
     setDate(currentDate);

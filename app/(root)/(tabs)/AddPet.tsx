@@ -49,7 +49,7 @@ const AddPet = () => {
             {/* Name field */}
             <View className="w-full flex gap-2">
               <TextInput
-                className="bg-white rounded-3xl w-full px-2 py-5 outline-0"
+                className="bg-white  w-full px-2 py-5 outline-0"
                 placeholder="Enter your pet name"
               />
             </View>
@@ -58,25 +58,25 @@ const AddPet = () => {
             <View className="w-full flex gap-2">
               <TextInput
                 keyboardType="number-pad"
-                className="bg-white rounded-3xl w-full px-2 py-5 outline-0"
+                className="bg-white  w-full px-2 py-5 outline-0"
                 placeholder="Enter your pet's Age"
               />
             </View>
             <View className="w-full flex gap-2">
                 <TextInput
-                    className="bg-white rounded-3xl w-full px-2 py-5 outline-0"
+                    className="bg-white  w-full px-2 py-5 outline-0"
                     placeholder="Enter your pet's Breed"
                 />
             </View>
             <View className="w-full flex gap-2">
                 <TextInput
-                    className="bg-white rounded-3xl w-full px-2 py-5 outline-0"
+                    className="bg-white  w-full px-2 py-5 outline-0"
                     placeholder="Enter your pet's species"
                 />
             </View>
 
             {/* Image Upload Text */}
-            <TouchableOpacity onPress={pickImage} className='w-full h-[100] bg-white rounded-3xl px-2 py-5 items-center'>
+            <TouchableOpacity onPress={pickImage} className='w-full h-[100] bg-white  px-2 py-5 items-center'>
              <Image source={icons.uploadImage} tintColor={"#172554"} className='size-full' resizeMode='contain'/>
             </TouchableOpacity>
 
@@ -90,11 +90,11 @@ const AddPet = () => {
                 />
               </View>
             )}
+            <TouchableOpacity className="bg-blue-950  w-full px-2 py-5 mt-5"
+            >
+              <Text className="text-white text-center text-lg font-rubik-extrabold">Add Pet</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity className="bg-blue-950 rounded-3xl w-full px-2 py-5 mt-5"
-          >
-            <Text className="text-white text-center text-lg font-rubik-extrabold">Add Pet</Text>
-          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

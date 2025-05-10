@@ -44,8 +44,8 @@ const HomePage = () => {
         </View>
         <View className="flex-row items-center space-x-4">
           {/* Notifications */}
-          <Link href="/Reminders" asChild>
-            <TouchableOpacity className="p-2">
+          <Link href="/Notifications" asChild>
+            <TouchableOpacity className="p-2" >
               <Text className="text-2xl">🔔</Text>
               {notifications.length > 0 && (
                 <View className="absolute top-0 right-0 bg-red-500 w-4 h-4 rounded-full items-center justify-center">
@@ -68,7 +68,7 @@ const HomePage = () => {
       <View className="flex-row justify-between mb-6 gap-2">
         {renderQuickAction('+ Add Pet', '/add-pet', 'bg-blue-500')}
         {renderQuickAction('View Records', '/health-records', 'bg-green-500')}
-        {renderQuickAction('+ Reminder', '/reminders', 'bg-yellow-500')}
+        {renderQuickAction('+ Reminder', '/Notifications', 'bg-yellow-500')}
       </View>
 
       {/* Pets Horizontal List */}

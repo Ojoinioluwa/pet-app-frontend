@@ -44,7 +44,7 @@ const HomePage = () => {
         </View>
         <View className="flex-row items-center space-x-4">
           {/* Notifications */}
-          <Link href="/Notifications" asChild>
+          <Link href="/AllReminders" asChild>
             <TouchableOpacity className="p-2" >
               <Text className="text-2xl">🔔</Text>
               {notifications.length > 0 && (

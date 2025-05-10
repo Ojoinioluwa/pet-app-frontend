@@ -19,8 +19,7 @@ const ListPet = () => {
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={()=> router.push('/AddPet')} className='bg-blue-950 mb-5 border text-white rounded-lg p-3 mt-5 w-1/3 flex-row items-center justify-center'>
-          <Image source={icons.wallet} className='w-5 h-5 mr-2' tintColor={"white"}/>
-          <Text className='text-white text-lg font-rubik-extrabold'>Add Pet</Text>
+          <Text className='text-white text-lg font-rubik-extrabold'> + Add Pet</Text>
         </TouchableOpacity>
         <PetCard image={images.LandingPage} name='Mandy' breed='Shiba Inu' age={3} species='German Sheperd' width='2/3'/>
         <PetCard image={images.LandingPage} name='Mandy' breed='Shiba Inu' age={3} species='German Sheperd' width='2/3'/>

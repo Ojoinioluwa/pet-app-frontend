@@ -24,7 +24,7 @@ const HomePage = () => {
 
   const renderQuickAction = (label: string, href: any, bgClass: string) => (
     <Link href={href} asChild>
-      <TouchableOpacity className={`${bgClass} p-5 rounded-lg items-center mb-4`}>
+      <TouchableOpacity className={`${bgClass} p-5 rounded-lg items-center mb-4 w-1/2`}>
         <Text className="text-white font-semibold text-center text-sm">{label}</Text>
       </TouchableOpacity>
     </Link>
@@ -66,9 +66,8 @@ const HomePage = () => {
 
       {/* Quick Actions Row */}
       <View className="flex-row justify-between mb-6 gap-2">
-        {renderQuickAction('+ Add Pet', '/add-pet', 'bg-blue-500')}
-        {renderQuickAction('View Records', '/health-records', 'bg-green-500')}
-        {renderQuickAction('+ Reminder', '/Notifications', 'bg-yellow-500')}
+        {renderQuickAction('+ Add Pet', '/AddPet', 'bg-blue-500')}
+        {renderQuickAction('View Records', '/AllHealthRecords', 'bg-green-500')}
       </View>
 
       {/* Pets Horizontal List */}

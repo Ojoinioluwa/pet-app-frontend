@@ -39,11 +39,28 @@ const PetInfo = () => {
         veterinarian: 'Dr. A',
         cost: 25,
       },
+      {
+        _id: '2',
+        type: 'Vaccination',
+        title: 'Rabies Shot',
+        description: 'Yearly rabies vaccination',
+        date: '2025-04-10',
+        veterinarian: 'Dr. A',
+        cost: 250,
+      },
     ]
 
     const fakeReminders = [
       {
-        _id: '1',
+        _id: '7',
+        type: 'Checkup',
+        title: 'Monthly Vet Visit',
+        description: 'Routine check',
+        date: '2025-05-20',
+        veterinarian: 'Dr. B',
+      },
+      {
+        _id: '4',
         type: 'Checkup',
         title: 'Monthly Vet Visit',
         description: 'Routine check',
@@ -101,7 +118,7 @@ const PetInfo = () => {
             </TouchableOpacity>
             <TouchableOpacity
               className="bg-blue-950 rounded-lg p-3 mt-5 w-1/2"
-              onPress={() => router.push("/Reminders")}
+              onPress={() => router.push("/RemindersPet")}
             >
               <Text className="text-white text-center text-lg font-rubix-medium">View Reminders</Text>
             </TouchableOpacity>

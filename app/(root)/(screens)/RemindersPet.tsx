@@ -4,7 +4,7 @@ import React from 'react'
 import { ScrollView, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-const Reminders = () => {
+const RemindersPet = () => {
   return (
     <SafeAreaView className="flex-1 bg-gray-200">
         <ScrollView className='flex-1 px-4 mt-10'>
@@ -25,4 +25,4 @@ const Reminders = () => {
 }
 
 
-export default Reminders
+export default RemindersPet

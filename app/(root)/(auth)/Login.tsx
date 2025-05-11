@@ -1,14 +1,33 @@
 import icons from '@/constants/icons'
 import images from '@/constants/images'
 import { Link } from 'expo-router'
+import { useFormik } from 'formik'
 import React from 'react'
 import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import * as Yup from 'yup'
 
 // TODO: add login functions
 // TODO: add the correct icons for the text field
+const validationSchema = Yup.object({
+  email: Yup.string().required('Email is required').email('Email is invalid'),
+  password: Yup.string().required('Password is required').min(6, 'Password must be at least 6 characters'),
+})
+
 
 const Login = () => {  
+ 
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema,
+    onSubmit: (values)=> {
+      console.log("Login")
+    }
+  })
+
   return (
     <SafeAreaView className='flex-1 bg-white' >
       <ScrollView>
@@ -27,6 +46,7 @@ const Login = () => {
                 placeholderTextColor="gray" 
                 className="text-sm font-rubik text-black-300 ml-2"
                 style={{ flex: 1 }} 
+                {...formik.getFieldProps('email')}
                 />
             </View>
               {/* password */}
@@ -38,6 +58,7 @@ const Login = () => {
                 className="text-sm font-rubik text-black-300 ml-2"
                 style={{ flex: 1 }} 
                 secureTextEntry
+                {...formik.getFieldProps('password')}
                 />
             </View>
 
@@ -47,7 +68,7 @@ const Login = () => {
             </View>
             {/* login button */}
             <View className='flex justify-center items-center mt-3'>
-              <TouchableOpacity className='px-3 py-4 rounded-3xl  w-full mt-3 bg-blue-950'>
+              <TouchableOpacity className='px-3 py-4 rounded-3xl  w-full mt-3 bg-blue-950' onPress={()=>formik.handleSubmit}>
                   <Text className='text-white text-center font-rubik-extrabold font-bold text-xl '>Login</Text>
               </TouchableOpacity>
             </View>

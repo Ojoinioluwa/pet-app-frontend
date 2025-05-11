@@ -25,9 +25,9 @@ const Settings = () => {
                 <Text className='text-blue-950 text-2xl'>Help</Text>
                 <Image source={icons.rightArrow} className='w-5 h-5 ml-auto'/>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>console.log("Logged out")} className='border-blue-950 border bg-white rounded-lg p-3 mt-5 w-full flex-row items-center'>
-                <Text className='text-blue-950 text-2xl'>Log Out</Text>
-                <Image source={icons.rightArrow} className='w-5 h-5 ml-auto'/>
+            <TouchableOpacity onPress={()=>console.log("Logged out")} className='bg-red-500 border border-white rounded-lg p-3 mt-5 w-full flex-row items-center'>
+                <Text className='text-whiter text-2xl'>Log Out</Text>
+                <Image source={icons.rightArrow} className='w-5 h-5 ml-auto' tintColor={"white"}/>
             </TouchableOpacity>
         </View>
     </SafeAreaView>

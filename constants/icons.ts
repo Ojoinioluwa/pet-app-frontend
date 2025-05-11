@@ -10,6 +10,8 @@ import cutlery from "@/assets/icons/cutlery.png";
 import dog from "@/assets/icons/dog.png";
 import dumbell from "@/assets/icons/dumbell.png";
 import edit from "@/assets/icons/edit.png";
+import eye from "@/assets/icons/eye.png";
+import eyeOff from "@/assets/icons/eyeOff.png";
 import filter from "@/assets/icons/filter.png";
 import google from "@/assets/icons/google.png";
 import heart from "@/assets/icons/heart.png";
@@ -67,5 +69,7 @@ export default {
   wifi,
   location,
   edit,
-  uploadImage
+  uploadImage,
+  eye,
+  eyeOff,
 };

@@ -54,8 +54,7 @@ const AddPet = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log({ ...values, imageUri });
-      Alert.alert('Success', 'Pet added successfully!');
+      
     },
   });
 

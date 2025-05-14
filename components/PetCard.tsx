@@ -3,6 +3,7 @@ import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 
 type petProps = {
+  petId: string;
   image: any;
   name: string;
   age: number;
@@ -11,7 +12,7 @@ type petProps = {
   width: string;
 }
 
-const PetCard = ({image, name, age, breed, species, width}: petProps) => {
+const PetCard = ({image, name, age, breed, species, width, petId}: petProps) => {
   return (
      <View className={`bg-white rounded-lg mb-5 shadow-lg mr-4 w-${width} `}>
           <Image source={image} className='w-full h-[200] rounded-lg'/>
@@ -21,7 +22,12 @@ const PetCard = ({image, name, age, breed, species, width}: petProps) => {
             <Text className='text-gray-500 text-lg font-rubix-light'>Breed: {breed}</Text>
             <Text className='text-gray-500 text-lg font-rubix-light'>Species: {species}</Text>
           </View>
-          <TouchableOpacity onPress={()=> router.push('/PetInfo')}>
+          <TouchableOpacity onPress={()=> router.push({
+            pathname: "/PetInfo",
+            params: {
+              id: petId
+            }
+          })}>
             <Text className='text-blue-950 text-lg font-rubix-medium text-center py-3'>View Details</Text>
           </TouchableOpacity>
         </View>

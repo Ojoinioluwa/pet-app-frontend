@@ -1,6 +1,8 @@
 import images from '@/constants/images'
-import { router } from 'expo-router'
-import React, { useEffect, useState } from 'react'
+import { GetPetByIdAPI } from '@/services/pet/petServices'
+import { useQuery } from '@tanstack/react-query'
+import { router, useLocalSearchParams } from 'expo-router'
+import React, { useState } from 'react'
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -23,9 +25,14 @@ interface Reminder {
   veterinarian?: string
 }
 
+
 const PetInfo = () => {
   const [healthRecords, setHealthRecords] = useState<HealthRecord[]>([])
   const [reminders, setReminders] = useState<Reminder[]>([])
+  const { id } = useLocalSearchParams();
+  const petId = Array.isArray(id) ? id[0] : id;
+
+
 
   const fetchPetData = async () => {
     // Replace with actual API calls
@@ -69,13 +76,23 @@ const PetInfo = () => {
       },
     ]
 
+  
+
     setHealthRecords(fakeHealth)
     setReminders(fakeReminders)
   }
 
-  useEffect(() => {
-    fetchPetData()
-  }, [])
+    const {data: petData} = useQuery({
+      queryKey: ["petInfo", petId],
+      queryFn: () => GetPetByIdAPI({petId}),
+      enabled: !!id
+    })
+
+    const {data: healthData} = useQuery({
+      queryKey: ["HealthRecord"],
+      queryFn: 
+    })
+
 
   return (
     <SafeAreaView className="flex-1 bg-gray-200 px-3 py-5">
@@ -83,14 +100,16 @@ const PetInfo = () => {
         <View className="w-full px-5">
           {/* Pet Profile */}
           <View className="flex-row items-center gap-3">
-            <Image source={images.LandingPage} className="w-[150] h-[150] rounded-full" />
+            <Image source={petData?.pet.image || images.LandingPage} className="w-[150] h-[150] rounded-full" />
             <View className="flex-1">
-              <Text className="text-blue-950 text-4xl font-rubix-medium">Mandy</Text>
+              <Text className="text-blue-950 text-4xl font-rubix-medium">{petData?.pet.name}</Text>
               <View className="flex-row items-center gap-2">
-                <Text className="text-blue-950 text-lg font-rubix-light">Dog</Text>
-                <Text className="text-blue-950 text-lg font-rubix-light">5 years</Text>
+                <Text className="text-blue-950 text-lg font-rubix-light">{petData?.pet.species}</Text>
+                <Text className="text-blue-950 text-lg font-rubix-light">{petData?.pet.age}</Text>
+                <Text className="text-blue-950 text-lg font-rubix-light">{petData?.pet.weight} KG</Text>
               </View>
-              <Text className="text-blue-950 text-lg font-rubix-light">Golden Retriever</Text>
+              <Text className="text-blue-950 text-lg font-rubix-light">{petData?.pet.breed}</Text>
+              <Text className="text-blue-950 text-lg font-rubix-light">{petData?.pet.sex}</Text>
             </View>
           </View>
 

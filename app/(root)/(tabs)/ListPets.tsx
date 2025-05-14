@@ -4,8 +4,9 @@ import images from '@/constants/images'
 import { ListPetsAPI } from '@/services/pet/petServices'
 import { useQuery } from '@tanstack/react-query'
 import { router } from 'expo-router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Image, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+
 type Pet = {
     _id: string;
     name: string;
@@ -20,7 +21,7 @@ type Pet = {
 const ListPet = () => {
  const [search, setSearch] = useState<string>("")
 
-  const {data, isLoading} = useQuery({
+  const {data, isLoading, error, isError} = useQuery({
     queryKey: ["listPets"],
     queryFn:ListPetsAPI,
   })
@@ -33,12 +34,24 @@ const searchPet = () => {
   setFilteredData(filtered);
 }
 
+  useEffect(() => {
+    setTimeout(()=> searchPet(), 2000)
+  }, [search]);
+
 
   if(isLoading){
     return <View className='w-full flex-1'>
       <ActivityIndicator/>
     </View>
   }
+
+  if (isError) {
+  return (
+    <View className="w-full flex-1">
+      <Text>Error: {error?.message}</Text>
+    </View>
+  );
+}
 
   return (
    <SafeAreaView className="flex-1 bg-gray-200 pb-10">
@@ -55,8 +68,12 @@ const searchPet = () => {
         <TouchableOpacity onPress={()=> router.push('/AddPet')} className='bg-blue-950 mb-5 border text-white rounded-lg p-3 mt-5 w-1/3 flex-row items-center justify-center'>
           <Text className='text-white text-lg font-rubik-extrabold'> + Add Pet</Text>
         </TouchableOpacity>
+        {filteredData?.length === 0 && (
+          <Text className="text-gray-500 text-center mt-5">No pets found matching `${search}`</Text>
+        )}
+
         {filteredData?.map((pet)=> (
-          <PetCard key={pet._id} image={images.LandingPage} name={pet.name} breed={pet.breed} age={pet.age} species='German Sheperd' width='2/3' petId={pet._id}/>
+          <PetCard key={pet._id} image={pet.image || images.LandingPage} name={pet.name} breed={pet.breed} age={pet.age} species={pet.species} width='2/3' petId={pet._id}/>
         ))}
       </View>
     </ScrollView>

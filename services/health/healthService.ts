@@ -47,6 +47,22 @@ export const addHealthAPI = async ({type, title, description, veterinarian, cost
           }
 }
 
-export const getHealthDetailsAPI = async ()=> {
-
+export const getHealthDetailsAPI = async ({healthRecordId}: {healthRecordId: string})=> {
+    try {
+        const token = getUserFromStorage();
+        const response = await axios.get(`${BASE_URL}/health-records/${healthRecordId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch (error) {
+        if(isAxiosError(error)){
+        console.log("getHealthDetailsAPI error", error.response?.data);
+        throw new Error(error.response?.data?.message || "Failed to get  health record");    
+    }
+        throw error
+   }
 }
+
+// getPetHealth

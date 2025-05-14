@@ -1,17 +1,18 @@
+import getUserFromStorage from "@/utils/getUserFromStorage";
 import BASE_URL from "@/utils/url";
 import axios, { isAxiosError } from "axios";
 
-
+const token = getUserFromStorage();
 
 type Pet = {
     id: string;
     name: string;
-    type: string;
+    species: string;
     breed: string;
     age: number;
     weight: number;
     description: string;
-    imageUrl: string;
+    image: string;
 }
 
 type AddPetResponse = {
@@ -51,18 +52,24 @@ type GetPetsByBreedResponse = {
     pets: Pet[];
 }
 
-export const AddPetAPI = async({name, type, breed, age, weight, description, imageUrl}: {name: string; type: string; breed: string; age: number; weight: number; description: string; imageUrl: string}): Promise<AddPetResponse> => {
-    try {
-        const response = await axios.post(`${BASE_URL}/pets`, 
-            {name, type, breed, age, weight, description, imageUrl},
-            {headers: {"Content-Type": "application/json"}}
-        )
-        return response.data;
-    }catch (error: any) {
-        if (isAxiosError(error)) {
-            console.log("AddPetAPI error", error.response?.data);
-            throw new Error(error.response?.data?.message || "Failed to add pet");
-        }
-        throw error;
+export const AddPetAPI = async(formData: FormData): Promise<AddPetResponse> => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/pets`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data', 
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    if (isAxiosError(error)) {
+      console.log("AddPetAPI error", error.response?.data);
+      throw new Error(error.response?.data?.message || "Failed to add pet");
     }
+    throw error;
+  }
 }

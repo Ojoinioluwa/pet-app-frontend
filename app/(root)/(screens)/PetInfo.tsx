@@ -1,4 +1,5 @@
 import images from '@/constants/images'
+import { getHealthDetailsAPI } from '@/services/health/healthService'
 import { GetPetByIdAPI } from '@/services/pet/petServices'
 import { useQuery } from '@tanstack/react-query'
 import { router, useLocalSearchParams } from 'expo-router'
@@ -89,8 +90,8 @@ const PetInfo = () => {
     })
 
     const {data: healthData} = useQuery({
-      queryKey: ["HealthRecord"],
-      queryFn: 
+      queryKey: ["HealthRecord", petId],
+      queryFn:()=>  getHealthDetailsAPI({petId})
     })
 
 

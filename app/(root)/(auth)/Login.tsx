@@ -63,7 +63,7 @@ const Login = () => {
        })
        formik.resetForm();
        setTimeout(() => {
-          router.replace("/HomePage");
+          router.replace("/");
         }, 1500);
       })
       .catch((error)=> {
@@ -124,11 +124,22 @@ const Login = () => {
                     onBlur={formik.handleBlur('password')}
                     value={formik.values.password}
                   />
-                  <View className='bg-white py-3 rounded-full flex flex-row items-center mb-6'>
+                  <TouchableOpacity
+                      onPress={() => setPassVisible(!passvisible)}
+                      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                    >
+                      <Image
+                        source={passvisible ? icons.eye : icons.eyeOff}
+                        className='size-6 mr-5'
+                      />
+                    </TouchableOpacity>
+
+              </View>
+                  {/* <View className='bg-white py-3 rounded-full flex flex-row items-center mb-6'>
                     <Image source={icons.shield} className='size-5 ml-5' />
                     <TextInput
                       editable={!isPending}
-                      secureTextEntry={!passvisible}
+                      // secureTextEntry={!passvisible}
                       placeholderTextColor="gray"
                       placeholder='🔑 Password'
                       className='font-rubix-medium flex-1'
@@ -144,9 +155,7 @@ const Login = () => {
                         className='size-6 mr-5'
                       />
                     </TouchableOpacity>
-                  </View>
-
-              </View>
+                  </View> */}
                 {formik.touched.password && formik.errors.password && (
                   <Text className="text-red-500 text-sm mt-1">{formik.errors.password}</Text>
                 )}

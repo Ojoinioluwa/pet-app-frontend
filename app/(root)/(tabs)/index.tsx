@@ -1,16 +1,16 @@
 import PetCard from '@/components/PetCard';
+import { ListPetsAPI } from '@/services/pet/petServices';
+import { useQuery } from '@tanstack/react-query';
 import { Link } from 'expo-router';
-import React, { useState } from 'react';
-import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { ActivityIndicator, FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
 const HomePage = () => {
-  const [pets] = useState([
-    { id: '1', name: 'Max', age: 2, breed: 'Labrador', species: 'Dog', photo: 'https://placedog.net/200/200?id=1' },
-    { id: '2', name: 'Luna', age: 3, breed: 'Siamese', species: 'Cat', photo: 'https://placekitten.com/200/200' },
-    { id: '3', name: 'Bella', age: 4, breed: 'Golden Retriever', species: 'Dog', photo: 'https://placedog.net/200/200?id=2' },
-    { id: '4', name: 'Charlie', age: 1, breed: 'Maine Coon', species: 'Cat', photo: 'https://placekitten.com/201/201' }
-  ]);
+  const {data: pets, isLoading: petLoading, error, isError, refetch} = useQuery({
+    queryKey: ["listPets"],
+    queryFn:ListPetsAPI,
+  })
 
   const user = {
     name: 'Jane Doe',
@@ -30,6 +30,14 @@ const HomePage = () => {
     </Link>
   );
 
+  if(petLoading){
+    return (
+      <View className='flex-1 items-center justify-center'>
+         <ActivityIndicator  size="large" color="blue" />
+      </View>
+    )
+  }
+
   return (
     <SafeAreaView className="flex-1 bg-gray-100 px-4 pt-6">
       {/* Header */}
@@ -39,7 +47,7 @@ const HomePage = () => {
             Welcome, {user.name}
           </Text>
           <Text className="text-sm text-gray-600">
-            You have {pets.length} pets and {notifications.length} notifications
+            You have {pets?.length} pets and {notifications.length} notifications
           </Text>
         </View>
         <View className="flex-row items-center space-x-4">
@@ -73,20 +81,21 @@ const HomePage = () => {
       {/* Pets Horizontal List */}
       <Text className="text-lg font-bold mb-2">Your Pets</Text>
       <FlatList
-        data={pets}
-        keyExtractor={item => item.id}
+        data={pets?.pets}
+        keyExtractor={item => item._id}
         horizontal
         showsHorizontalScrollIndicator={false}
         // ItemSeparatorComponent={() => <View style={{ width: 4 }} />}
         contentContainerStyle={styles.contentContainerStyle}
         renderItem={({ item }) => (
           <PetCard
-            image={{ uri: item.photo }}
+            image={item.image}
             name={item.name}
             age={item.age}
             breed={item.breed}
             species={item.species}
             width='fit'
+            petId={item._id}
           />
         )}
       />

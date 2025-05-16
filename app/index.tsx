@@ -17,6 +17,7 @@ export default function Index() {
       <Link href="/AddHealthRecord" className="px-2 py-3 text-white text-2xl bg-blue-950 mb-3">Add Health record</Link>
       <Link href="/PetInfo" className="px-2 py-3 text-white text-2xl bg-blue-950 mb-3">Pet info</Link>
       <Link href="/Settings" className="px-2 py-3 text-white text-2xl bg-blue-950 mb-3">Settings</Link>
+      <Link href="/AddReminder" className="px-2 py-3 text-white text-2xl bg-blue-950 mb-3">Add reminder</Link>
 
     </View>
   );

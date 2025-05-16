@@ -47,10 +47,10 @@ export const addHealthAPI = async ({type, title, description, veterinarian, cost
           }
 }
 
-export const getHealthDetailsAPI = async ({healthRecordId}: {healthRecordId: string})=> {
+export const getHealthDetailsAPI = async ({petId}: {petId: string})=> {
     try {
         const token = getUserFromStorage();
-        const response = await axios.get(`${BASE_URL}/health-records/${healthRecordId}`, {
+        const response = await axios.get(`${BASE_URL}/health-records/${petId}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

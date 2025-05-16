@@ -1,10 +1,10 @@
 import PetCard from '@/components/PetCard'
 import icons from '@/constants/icons'
-import images from '@/constants/images'
 import { ListPetsAPI } from '@/services/pet/petServices'
 import { useQuery } from '@tanstack/react-query'
-import { router } from 'expo-router'
-import React, { useEffect, useState } from 'react'
+import { router, useFocusEffect } from 'expo-router'
+
+import React, { useCallback, useEffect, useState } from 'react'
 import { ActivityIndicator, Image, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 type Pet = {
@@ -21,22 +21,31 @@ type Pet = {
 const ListPet = () => {
  const [search, setSearch] = useState<string>("")
 
-  const {data, isLoading, error, isError} = useQuery({
+  const {data, isLoading, error, isError, refetch} = useQuery({
     queryKey: ["listPets"],
     queryFn:ListPetsAPI,
   })
 const [filteredData, setFilteredData] = useState<Pet[] | undefined>(undefined);
+useEffect(()=> {
 
-const searchPet = () => {
-  const filtered = search
-    ? data?.pets.filter((pet) => pet.name.toLowerCase().includes(search.toLowerCase()))
-    : data?.pets;
-  setFilteredData(filtered);
-}
+  if(search !== ""){
+    const filtered = search
+        ? data?.pets.filter((pet) => pet.name.toLowerCase().includes(search.toLowerCase()))
+        : data?.pets;
+      setFilteredData(filtered);
+  }else {
+    setFilteredData(data?.pets)
+  }
+}, [search, data])
 
-  useEffect(() => {
-    setTimeout(()=> searchPet(), 2000)
-  }, [search]);
+
+useFocusEffect(
+  useCallback(() => {
+    refetch(); 
+  }, [refetch])
+);
+
+
 
 
   if(isLoading){
@@ -61,7 +70,7 @@ const searchPet = () => {
         <Text className='text-blue-950 text-5xl font-rubix-medium mb-5'>My Pets</Text>
         <View className='flex-row mb-3 bg-white rounded-lg items-center w-2/3'>
           <TextInput value={search} onChangeText={setSearch} className='bg-white w-[200px]' placeholder='Search by Name' placeholderTextColor="#172554"/>
-          <TouchableOpacity onPress={searchPet} className='bg-blue-950 w-[50] px-2 flex items-center justify-center rounded-lg'>
+          <TouchableOpacity className='bg-blue-950 w-[50] px-2 flex items-center justify-center rounded-lg'>
             <Image source={icons.search} className='text-white text-lg font-rubix-medium w-5' resizeMode='contain' tintColor={"white"}/>
           </TouchableOpacity>
         </View>
@@ -73,7 +82,7 @@ const searchPet = () => {
         )}
 
         {filteredData?.map((pet)=> (
-          <PetCard key={pet._id} image={pet.image || images.LandingPage} name={pet.name} breed={pet.breed} age={pet.age} species={pet.species} width='2/3' petId={pet._id}/>
+          <PetCard key={pet._id} image={pet.image} name={pet.name} breed={pet.breed} age={pet.age} species={pet.species} width='2/3' petId={pet._id}/>
         ))}
       </View>
     </ScrollView>

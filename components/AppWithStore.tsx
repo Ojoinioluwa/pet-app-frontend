@@ -43,14 +43,14 @@ export function AppWithStore() {
   if (!fontLoaded) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="black" />
+        <ActivityIndicator size="large" color="blue" />
       </View>
     );
   }
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack screenOptions={{ headerShown: false }} />
+        <Stack screenOptions={{ headerShown: false }} />
       <Toast />
     </QueryClientProvider>
   );

@@ -31,6 +31,7 @@ type DeletePetResponse = {
 type GetPetsResponse = {
     message: string;
     pets: Pet[];
+    length?: number
 }
 type GetPetByIdResponse = {
     message: string;
@@ -41,7 +42,8 @@ type GetPetByIdResponse = {
 
 export const AddPetAPI = async(formData: FormData): Promise<AddPetResponse> => {
   try {
-    const token = getUserFromStorage();
+    const user = await getUserFromStorage();
+    const token = user.token
     const response = await axios.post(
       `${BASE_URL}/pet`,
       formData,
@@ -55,7 +57,7 @@ export const AddPetAPI = async(formData: FormData): Promise<AddPetResponse> => {
     return response.data;
   } catch (error: any) {
     if (isAxiosError(error)) {
-      console.log("AddPetAPI error", error.response?.data);
+      console.log("AddPetAPI error", error.response);
       throw new Error(error.response?.data?.message || "Failed to add pet");
     }
     throw error;
@@ -64,7 +66,8 @@ export const AddPetAPI = async(formData: FormData): Promise<AddPetResponse> => {
 
 export const ListPetsAPI = async(): Promise<GetPetsResponse> => {
     try {
-        const token = getUserFromStorage();
+        const user = await getUserFromStorage();
+        const token = user.token
         const response = await axios.get(`${BASE_URL}/pets`, {
             headers: {
                 Authorization: `Bearer ${token}`,

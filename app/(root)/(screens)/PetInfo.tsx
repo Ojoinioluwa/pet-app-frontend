@@ -118,7 +118,12 @@ const PetInfo = () => {
           <View className="flex-row gap-3">
             <TouchableOpacity
               className="border-blue-950 border bg-white rounded-lg p-3 mt-5 w-1/2"
-              onPress={() => router.push("/AddHealthRecord")}
+              onPress={() => router.push({
+                pathname: "/AddHealthRecord",
+                params: {
+                  id: petId
+                }
+              })}
             >
               <Text className="text-blue-950 text-center text-lg font-rubix-medium">+ Health Record</Text>
             </TouchableOpacity>

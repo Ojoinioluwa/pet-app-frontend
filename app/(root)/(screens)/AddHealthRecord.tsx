@@ -24,8 +24,7 @@ const validationSchema = Yup.object({
     .oneOf(["Checkup", "Treatment", "Deworming", "Vaccination"])
     .required("Type field is required"),
   description: Yup.string().required("Description is required"),
-  cost: Yup.number()
-    .typeError("Cost must be a number")
+  cost: Yup.string()
     .required("Cost is required"),
   date: Yup.date().required("Date is required"),
   veterinarian: Yup.string(),
@@ -37,25 +36,35 @@ const AddHealthRecord = () => {
   const { id } = useLocalSearchParams();
   const petId = Array.isArray(id) ? id[0] : id;
 
+
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ["AddHealthRecord"],
     mutationFn: addHealthAPI,
   });
+
+ 
 
   const formik = useFormik({
     initialValues: {
       title: "",
       type: "",
       description: "",
-      cost: 0,
-      date: new Date().toISOString(),
+      cost: "",
+      date: new Date(),
       veterinarian: "",
       petId: petId,
     },
     validationSchema,
     onSubmit: async (values) => {
       try {
-        await mutateAsync(values);
+        if(isNaN(Number(values.cost))){
+          Toast.show({
+            type: "error",
+            text1: "Expect a Number from the field cost"
+          })
+          throw new Error("Expected a number value from the field cost but is getting a NAN value")
+        }
+        await mutateAsync({title: values.title, type: values.type, description: values.description, cost: Number(values.cost), veterinarian: values.veterinarian, petId: values.petId, date: values.date});
         Toast.show({
           type: "success",
           text1: "Health record created successfully",
@@ -71,6 +80,10 @@ const AddHealthRecord = () => {
       }
     },
   });
+
+   const handleSubmit = ()=> {
+    formik.handleSubmit()
+  }
   return (
     <SafeAreaView className="flex-1 bg-gray-200">
       <KeyboardAvoidingView className="flex-1">
@@ -79,7 +92,7 @@ const AddHealthRecord = () => {
             Add Pet Health Record
           </Text>
           <Text className="pt-2 font-rubix-light text-blue-950 text-lg text-center">
-            Fill in all about the pet's health record
+            Fill in all about the pet &apos health record
           </Text>
           <View className="flex-1 items-center justify-center px-5 mt-5 gap-5">
             {/* title field */}
@@ -142,7 +155,7 @@ const AddHealthRecord = () => {
             <View className="w-full flex gap-2">
               <TextInput
                 editable={!isPending}
-                value={formik.values.cost.toFixed(0)}
+                value={formik.values.cost}
                 onChangeText={formik.handleChange("cost")}
                 onBlur={formik.handleBlur("cost")}
                 keyboardType="number-pad"
@@ -196,7 +209,7 @@ const AddHealthRecord = () => {
 
             <TouchableOpacity
               className="bg-blue-950 rounded-3xl w-full px-2 py-5 mt-5"
-              onPress={formik.handleSubmit}
+              onPress={handleSubmit}
               disabled={isPending}
             >
               <Text className="text-white text-center text-lg font-rubik-extrabold">

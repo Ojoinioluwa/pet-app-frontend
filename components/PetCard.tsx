@@ -13,6 +13,7 @@ type petProps = {
 }
 
 const PetCard = ({image, name, age, breed, species, width, petId}: petProps) => {
+
   return (
      <View className={`bg-white rounded-lg mb-5 shadow-lg mr-4 w-${width}  p-4`}>
       

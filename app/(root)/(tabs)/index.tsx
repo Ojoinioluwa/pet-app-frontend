@@ -11,6 +11,7 @@ const HomePage = () => {
     queryKey: ["listPets"],
     queryFn:ListPetsAPI,
   })
+  console.log(pets?.pets[0]._id)
 
   const user = {
     name: 'Jane Doe',

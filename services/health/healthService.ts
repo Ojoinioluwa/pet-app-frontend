@@ -9,6 +9,7 @@ type healthRecord = {
     veterinarian: string; 
     cost : number;
     petId: string;
+    date: Date;
 }
 
 
@@ -25,11 +26,12 @@ type AddHealthResponse = {
   };
 }
 
-export const addHealthAPI = async ({type, title, description, veterinarian, cost, petId }: healthRecord): Promise<AddHealthResponse> => {
+export const addHealthAPI = async ({type, title, description, veterinarian, cost, petId, date }: healthRecord): Promise<AddHealthResponse> => {
     try {
-        const token = getUserFromStorage()
+        const user =  await getUserFromStorage()
+        const token = user?.token
         const response = await axios.post(`${BASE_URL}/pet/${petId}/health-records`,{
-            type, title, description, veterinarian, cost 
+            type, title, description, veterinarian, cost, date 
         },
         {
             headers: {

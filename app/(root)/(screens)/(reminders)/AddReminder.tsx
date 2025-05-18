@@ -32,10 +32,8 @@ const AddReminder = () => {
   const {id} = useLocalSearchParams();
   const petId = Array.isArray(id) ? id[0] : id;
 
- 
-
   const { mutateAsync, isPending } = useMutation({
-    mutationKey: ["AddReminder"],
+    mutationKey: ["AddReminder", petId],
     mutationFn: AddReminderAPI,
   });
 
@@ -101,10 +99,10 @@ const AddReminder = () => {
                 style={{ backgroundColor: "white", borderRadius: 100 }}
               >
                 <Picker.Item label="Select Health Type" value="" />
-                <Picker.Item label="Vaccination" value="Vaccination" />
-                <Picker.Item label="Deworming" value="caDewormingt" />
-                <Picker.Item label="Treatment" value="Treatment" />
-                <Picker.Item label="Checkup" value="Checkup" />
+                <Picker.Item label="Vaccination" value="vaccination" />
+                <Picker.Item label="Deworming" value="deworming" />
+                <Picker.Item label="Treatment" value="treatment" />
+                <Picker.Item label="Checkup" value="checkup" />
               </Picker>
             </View>
             {/* Description field */}
@@ -124,7 +122,7 @@ const AddReminder = () => {
             {/* Date field */}
             <View>
               <Button title="Pick Date" onPress={() => setShow(true)} />
-              <Text className="mt-2 text-center">{formik.values.date.toDateString()}</Text>
+              <Text className="mt-2 text-center">{(formik.values.date).toString()}</Text>
 
               {show && (
                 <DateTimePicker
@@ -153,9 +151,9 @@ const AddReminder = () => {
               />
             </View>
 
-            <TouchableOpacity className="bg-blue-950 rounded-3xl w-full px-2 py-5 mt-5">
+            <TouchableOpacity onPress={formik.handleSubmit} className="bg-blue-950 rounded-3xl w-full px-2 py-5 mt-5">
               <Text className="text-white text-center text-lg font-rubik-extrabold">
-                Add Pet
+                Add Reminder
               </Text>
             </TouchableOpacity>
           </View>

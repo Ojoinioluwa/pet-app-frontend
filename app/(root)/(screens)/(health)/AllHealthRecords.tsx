@@ -1,9 +1,17 @@
 import HealthRecordCard from "@/components/HealthRecordCard";
 import icons from "@/constants/icons";
-import images from "@/constants/images";
+import { getHealthRecordByUserAPI } from "@/services/health/healthService";
 import { Picker } from "@react-native-picker/picker";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { FlatList, Image, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type HealthRecord = {
@@ -64,6 +72,19 @@ const AllHealthRecords = () => {
       cost: 250,
     },
   ];
+
+  const { data, isPending } = useQuery({
+    queryKey: ["AllHealthRecord"],
+    queryFn: getHealthRecordByUserAPI,
+  });
+  console.log(data, "inniop;,");
+  if (isPending) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
   return (
     <SafeAreaView className="flex-1 px-4">
       <View className="px-4 mt-10 mb-5">
@@ -100,7 +121,7 @@ const AllHealthRecords = () => {
       </View>
 
       <FlatList
-        data={array}
+         data={data.healthRecords}
         keyExtractor={(item) => item._id.toString()}
         renderItem={({ item }) => (
           <HealthRecordCard
@@ -112,7 +133,7 @@ const AllHealthRecords = () => {
             cost={item.cost}
             pet={{
               name: "Buddy",
-              avatarUri: images.LandingPage,
+              avatarUri: item,
             }}
             id={item._id}
           />

@@ -13,7 +13,6 @@ type healthRecord = {
     healthRecordId?: string;
 }
 
-
 type AddHealthResponse = {
     message: string;
     petId: string;
@@ -52,8 +51,9 @@ export const addHealthAPI = async ({ type, title, description, veterinarian, cos
 
 export const getHealthDetailsAPI = async ({ petId }: { petId: string }) => {
     try {
-        const token = getUserFromStorage();
-        const response = await axios.get(`${BASE_URL}/health-records/${petId}`, {
+        const user = await getUserFromStorage();
+        const token = user?.token
+        const response = await axios.get(`${BASE_URL}/pet/${petId}/health-records`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -89,7 +89,7 @@ export const DeleteHealthAPI = async ({ healthRecordId }: { healthRecordId: stri
     }
 }
 // update pet API
-export const updateHealthAPI = async ({ healthRecordId, type, title, description, veterinarian, cost, date }: Partial<healthRecord>)=> {
+export const updateHealthAPI = async ({ healthRecordId, type, title, description, veterinarian, cost, date }: Partial<healthRecord>) => {
     try {
         const user = await getUserFromStorage();
         const token = user?.token;
@@ -104,6 +104,25 @@ export const updateHealthAPI = async ({ healthRecordId, type, title, description
     } catch (error) {
         if (isAxiosError(error)) {
             console.log("getHealthDetailsAPI error", error.response?.data);
+            throw new Error(error.response?.data?.message || "Failed to get  health record");
+        }
+        throw error
+    }
+}
+
+export const getHealthRecordByUserAPI = async () => {
+    try {
+        const user = await getUserFromStorage();
+        const token = user?.token;
+        const response = await axios.get(`${BASE_URL}/health-records`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch (error) {
+        if (isAxiosError(error)) {
+            console.log("getHealthRecordByUserAPI error", error)
             throw new Error(error.response?.data?.message || "Failed to get  health record");
         }
         throw error

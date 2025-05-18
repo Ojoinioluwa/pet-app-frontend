@@ -1,8 +1,7 @@
 import HealthRecordCard from '@/components/HealthRecordCard'
 import images from '@/constants/images'
 import { Picker } from '@react-native-picker/picker'
-import { useQuery } from '@tanstack/react-query'
-import React from 'react'
+import React, { useState } from 'react'
 import { FlatList, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -19,6 +18,7 @@ type HealthRecord = {
 
 
 const HealthHistory = () => {
+    const [type, setType] = useState("all")
 
     const array: HealthRecord[] = [
         {
@@ -67,15 +67,13 @@ const HealthHistory = () => {
             cost: 250,
         },
     ]
-    const {data} = useQuery({
-        
-    })
+
   return (
     <SafeAreaView className='flex-1 py-3'>
             <Text className='text-blue-950 text-2xl text-center font-rubix-medium'>Health Records for Mandy</Text>
         <View className="bg-gray-100 p-4 flex-1">
             <View className='bg-white rounded-lg mt-5 mb-5'>
-                <Picker className='w-full mt-5 bg-white rounded-lg' selectedValue="all" onValueChange={(itemValue, itemIndex) => console.log(itemValue)}>
+                <Picker className='w-full mt-5 bg-white rounded-lg' selectedValue={type} onValueChange={(itemValue, itemIndex) => setType(itemValue)}>
                 <Picker.Item label="Select Health Type" value="" />
                 <Picker.Item label="Vaccination" value="vaccination" />
                 <Picker.Item label="Deworming" value="deworming" />

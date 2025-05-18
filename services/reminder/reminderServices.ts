@@ -3,7 +3,7 @@ import BASE_URL from "@/utils/url";
 import axios, { isAxiosError } from "axios";
 
 type Reminder = {
-    id: string
+    _id: string
     petId: string;
     title: string;
     type: string;
@@ -72,7 +72,7 @@ export const GetRemindersForPetAPI = async ({petId}: {petId: string}): Promise<g
         return response.data
     } catch (error) {
         if(isAxiosError(error)){
-            console.log("GetAllRemindersAPI error", error);
+            console.log("GetRemindersForPetAPI error", error);
             throw new Error(error.response?.data?.message || "Failed to get all reminders");
         }
         throw error

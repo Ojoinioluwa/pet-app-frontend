@@ -1,6 +1,7 @@
 import HealthRecordCard from '@/components/HealthRecordCard'
 import images from '@/constants/images'
 import { Picker } from '@react-native-picker/picker'
+import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { FlatList, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -66,6 +67,9 @@ const HealthHistory = () => {
             cost: 250,
         },
     ]
+    const {data} = useQuery({
+        
+    })
   return (
     <SafeAreaView className='flex-1 py-3'>
             <Text className='text-blue-950 text-2xl text-center font-rubix-medium'>Health Records for Mandy</Text>

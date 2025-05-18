@@ -2,12 +2,13 @@ import { addHealthAPI } from "@/services/health/healthService";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { useMutation } from "@tanstack/react-query";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import {
   Button,
   KeyboardAvoidingView,
+  Platform,
   ScrollView,
   Text,
   TextInput,
@@ -24,8 +25,7 @@ const validationSchema = Yup.object({
     .oneOf(["Checkup", "Treatment", "Deworming", "Vaccination"])
     .required("Type field is required"),
   description: Yup.string().required("Description is required"),
-  cost: Yup.string()
-    .required("Cost is required"),
+  cost: Yup.string().required("Cost is required"),
   date: Yup.date().required("Date is required"),
   veterinarian: Yup.string(),
 });
@@ -36,13 +36,10 @@ const AddHealthRecord = () => {
   const { id } = useLocalSearchParams();
   const petId = Array.isArray(id) ? id[0] : id;
 
-
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ["AddHealthRecord"],
     mutationFn: addHealthAPI,
   });
-
- 
 
   const formik = useFormik({
     initialValues: {
@@ -57,19 +54,30 @@ const AddHealthRecord = () => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        if(isNaN(Number(values.cost))){
+        if (isNaN(Number(values.cost))) {
           Toast.show({
             type: "error",
-            text1: "Expect a Number from the field cost"
-          })
-          throw new Error("Expected a number value from the field cost but is getting a NAN value")
+            text1: "Expect a Number from the field cost",
+          });
+          throw new Error(
+            "Expected a number value from the field cost but is getting a NAN value"
+          );
         }
-        await mutateAsync({title: values.title, type: values.type, description: values.description, cost: Number(values.cost), veterinarian: values.veterinarian, petId: values.petId, date: values.date});
+        await mutateAsync({
+          title: values.title,
+          type: values.type,
+          description: values.description,
+          cost: Number(values.cost),
+          veterinarian: values.veterinarian,
+          petId: values.petId,
+          date: values.date,
+        });
         Toast.show({
           type: "success",
           text1: "Health record created successfully",
         });
         formik.resetForm();
+        router.back();
       } catch (error) {
         Toast.show({
           type: "error",
@@ -81,18 +89,22 @@ const AddHealthRecord = () => {
     },
   });
 
-   const handleSubmit = ()=> {
-    formik.handleSubmit()
-  }
+  const handleSubmit = () => {
+    formik.handleSubmit();
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-gray-200">
-      <KeyboardAvoidingView className="flex-1">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        className="flex-1"
+      >
         <ScrollView className="flex-1 pt-5 px-5">
           <Text className="text-3xl text-center text-blue-950 font-rubik-extrabold">
             Add Pet Health Record
           </Text>
           <Text className="pt-2 font-rubix-light text-blue-950 text-lg text-center">
-            Fill in all about the pet &apos health record
+            Fill in all about the pet health record
           </Text>
           <View className="flex-1 items-center justify-center px-5 mt-5 gap-5">
             {/* title field */}

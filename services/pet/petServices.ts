@@ -84,7 +84,8 @@ export const ListPetsAPI = async(): Promise<GetPetsResponse> => {
 }
 export const GetPetByIdAPI = async({petId}: {petId: string}): Promise<GetPetByIdResponse> => {
    try {
-        const token = getUserFromStorage();
+        const user =await getUserFromStorage();
+        const token = user?.token
          const response = await axios.get(`${BASE_URL}/pet/${petId}`, {
         headers: {
             Authorization: `Bearer ${token}`

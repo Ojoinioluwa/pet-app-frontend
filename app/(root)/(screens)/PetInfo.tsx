@@ -1,4 +1,3 @@
-import images from '@/constants/images'
 import { getHealthDetailsAPI } from '@/services/health/healthService'
 import { GetPetByIdAPI } from '@/services/pet/petServices'
 import { useQuery } from '@tanstack/react-query'
@@ -94,6 +93,11 @@ const PetInfo = () => {
       queryFn:()=>  getHealthDetailsAPI({petId})
     })
 
+    const {data: reminderData} = useQuery({
+      queryKey: ["ReminderRecord"],
+      // queryFn:
+    })
+
 
   return (
     <SafeAreaView className="flex-1 bg-gray-200 px-3 py-5">
@@ -101,16 +105,14 @@ const PetInfo = () => {
         <View className="w-full px-5">
           {/* Pet Profile */}
           <View className="flex-row items-center gap-3">
-            <Image source={petData?.pet.image || images.LandingPage} className="w-[150] h-[150] rounded-full" />
+            <Image source={{uri: petData?.pet.image}} className="w-[150] h-[150] rounded-full" />
             <View className="flex-1">
               <Text className="text-blue-950 text-4xl font-rubix-medium">{petData?.pet.name}</Text>
-              <View className="flex-row items-center gap-2">
-                <Text className="text-blue-950 text-lg font-rubix-light">{petData?.pet.species}</Text>
-                <Text className="text-blue-950 text-lg font-rubix-light">{petData?.pet.age}</Text>
-                <Text className="text-blue-950 text-lg font-rubix-light">{petData?.pet.weight} KG</Text>
-              </View>
-              <Text className="text-blue-950 text-lg font-rubix-light">{petData?.pet.breed}</Text>
-              <Text className="text-blue-950 text-lg font-rubix-light">{petData?.pet.sex}</Text>
+              <Text className="text-blue-950 text-lg font-rubix-light">Species: {petData?.pet.species}</Text>
+              <Text className="text-blue-950 text-lg font-rubix-light">Age: {petData?.pet.age}</Text>
+              <Text className="text-blue-950 text-lg font-rubix-light">weight: {petData?.pet.weight} KG</Text>
+              <Text className="text-blue-950 text-lg font-rubix-light">Breed: {petData?.pet.breed}</Text>
+              <Text className="text-blue-950 text-lg font-rubix-light">sex: {petData?.pet.sex}</Text>
             </View>
           </View>
 
@@ -137,7 +139,12 @@ const PetInfo = () => {
           <View className="flex-row gap-3">
             <TouchableOpacity
               className="bg-blue-950 rounded-lg p-3 mt-5 w-1/2"
-              onPress={() => router.push("/AddReminder")}
+              onPress={() => router.push({
+                pathname: "/AddReminder",
+                params: {
+                  id: petId
+                }
+              })}
             >
               <Text className="text-white text-center text-lg font-rubix-medium">Add Reminder</Text>
             </TouchableOpacity>
@@ -151,7 +158,7 @@ const PetInfo = () => {
 
           {/* Health Records Preview */}
           <Text className="mt-6 mb-2 text-blue-950 text-xl font-rubix-semibold">Recent Health Records</Text>
-          {healthRecords.map((record) => (
+          {healthData[3].map((record:HealthRecord) => (
             <View key={record._id} className="bg-white rounded-lg p-3 mb-3">
               <Text className="text-lg font-rubix-semibold text-blue-950">{record.title}</Text>
               <Text className="text-sm text-gray-600">{record.type} — {new Date(record.date).toDateString()}</Text>

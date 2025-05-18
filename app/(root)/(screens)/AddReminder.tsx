@@ -2,19 +2,20 @@ import { AddReminderAPI } from "@/services/reminder/reminderServices";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { useMutation } from "@tanstack/react-query";
+import { router, useLocalSearchParams } from "expo-router";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import {
   Button,
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object({
@@ -26,16 +27,12 @@ const validationSchema = Yup.object({
 });
 
 const AddReminder = () => {
-  const [petType, setPetType] = useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
-  // const id = 
+  const {id} = useLocalSearchParams();
+  const petId = Array.isArray(id) ? id[0] : id;
 
-  const onChange = (event: any, selectedDate: Date) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
-    setDate(currentDate);
-  };
+ 
 
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ["AddReminder"],
@@ -47,14 +44,28 @@ const AddReminder = () => {
       title: "",
       type: "",
       description: "",
-      date: "",
+      date: new Date(),
       veterinarian: "",
+      petId: petId,
     },
     validationSchema,
     onSubmit: async (values) => {
       try {
-        await mutateAsync(values);
-      } catch (error) {}
+        await mutateAsync({title: values.title, type: values.type, description: values.description, veterinarian: values.veterinarian, petId: values.petId, date: values.date});
+        Toast.show({
+          type: "success",
+          text1: "Reminder added Succesfully",
+        })
+        formik.resetForm();
+        router.back()
+      } catch (error) {
+        Toast.show({
+          type: "error",
+          text1: "Failed to create reminder",
+          text2: "Something went wrong",
+        });
+        console.log(error);
+      }
     },
   });
   return (
@@ -85,8 +96,8 @@ const AddReminder = () => {
             {/* Type field */}
             <View className="w-full flex gap-2 rounded-3xl bg-white">
               <Picker
-                selectedValue={petType}
-                onValueChange={(itemValue) => setPetType(itemValue)}
+                selectedValue={formik.values.type}
+                onValueChange={(itemValue) => formik.setFieldValue("type",itemValue)}
                 style={{ backgroundColor: "white", borderRadius: 100 }}
               >
                 <Picker.Item label="Select Health Type" value="" />
@@ -99,6 +110,10 @@ const AddReminder = () => {
             {/* Description field */}
             <View className="w-full flex gap-2">
               <TextInput
+                value={formik.values.description}
+                onChangeText={formik.handleChange("description")}
+                onBlur={formik.handleBlur("description")}
+                editable={!isPending}
                 multiline
                 numberOfLines={4}
                 placeholder="Enter a description about the treatment"
@@ -109,20 +124,30 @@ const AddReminder = () => {
             {/* Date field */}
             <View>
               <Button title="Pick Date" onPress={() => setShow(true)} />
-              <Text className="mt-2 text-center">{date.toDateString()}</Text>
+              <Text className="mt-2 text-center">{formik.values.date.toDateString()}</Text>
 
               {show && (
                 <DateTimePicker
-                  value={date}
+                  value={new Date(formik.values.date)}
                   mode="date"
                   display="default"
-                  onChange={onChange}
+                  onChange={(_, selectedDate) => {
+                    setShow(false);
+                    if (selectedDate) {
+                      setDate(selectedDate);
+                      formik.setFieldValue("date", selectedDate.toISOString());
+                    }
+                  }}
                 />
               )}
             </View>
             {/* Veterinarian field */}
             <View className="w-full flex gap-2">
               <TextInput
+                value={formik.values.veterinarian}
+                onChangeText={formik.handleChange("veterinarian")}
+                onBlur={formik.handleBlur("veterinarian")}
+                editable={!isPending}
                 className="bg-white w-full px-2 py-5 outline-0"
                 placeholder="Enter vetenerian Name"
               />

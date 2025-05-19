@@ -18,7 +18,6 @@ const ProfilePage = () => {
     queryKey: ["Profile"],
     queryFn: GetProfileAPI,
   });
-  console.log(data, "Profile");
   if (isLoading) {
     return (
       <View className="flex-1 justify-center items-center">

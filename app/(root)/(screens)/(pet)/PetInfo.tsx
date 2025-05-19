@@ -119,7 +119,12 @@ useFocusEffect(
             </TouchableOpacity>
             <TouchableOpacity
               className="border-blue-950 border bg-white rounded-lg p-3 mt-5 w-1/2"
-              onPress={() => router.push("/HealthHistory")}
+              onPress={() => router.push({
+                pathname: "/HealthHistory",
+                params: {
+                  id: petId
+                }
+              })}
             >
               <Text className="text-blue-950 text-center text-lg font-rubix-medium">
                 View History
@@ -144,7 +149,12 @@ useFocusEffect(
             </TouchableOpacity>
             <TouchableOpacity
               className="bg-blue-950 rounded-lg p-3 mt-5 w-1/2"
-              onPress={() => router.push("/RemindersPet")}
+              onPress={() => router.push({
+                pathname: "/RemindersPet",
+                params: {
+                  id: petId
+                }
+              })}
             >
               <Text className="text-white text-center text-lg font-rubix-medium">
                 View Reminders

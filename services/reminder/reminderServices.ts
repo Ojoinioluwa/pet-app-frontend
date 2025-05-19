@@ -4,7 +4,7 @@ import axios, { isAxiosError } from "axios";
 
 type Reminder = {
     _id: string
-    petId: string;
+    petId: {name: string, image: string};
     title: string;
     type: string;
     description: string;
@@ -77,4 +77,23 @@ export const GetRemindersForPetAPI = async ({petId}: {petId: string}): Promise<g
         }
         throw error
     }
+}
+
+export const GetAllReminderForUser = async(): Promise<getRemindersResponse>=> {
+   try {
+     const user = await getUserFromStorage();
+    const token = user?.token
+    const response = await axios.get(`${BASE_URL}/reminders`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    return response.data
+   } catch (error) {
+    if(isAxiosError(error)){
+        console.log("GetAllReminderForUser Error", error)
+        throw new Error("Failed to fetch reminders for the user")
+    }
+    throw error
+   }
 }

@@ -1,9 +1,9 @@
 import React from 'react'
-import { Image, ImageSourcePropType, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 interface Notification {
   id: string
   title: string
-  pet: { name: string; avatarUri: ImageSourcePropType }
+  pet: { name: string; image: string }
   date: string
   type: string
   description: string
@@ -18,7 +18,7 @@ const NotificationCard = ({id, title, pet, date, type, description}: Notificatio
         <Text className='text-blue-950 text-xl font-rubix-medium'>{title} </Text>
         <View className='flex gap-2 items-start justify-between py-4'>
             <View className='flex-row gap-2 items-center'>
-                <Image source={pet.avatarUri} resizeMode='cover'  className='w-10 h-10 rounded-full'/>
+                <Image source={{uri: pet.image}} resizeMode='cover'  className='w-10 h-10 rounded-full'/>
                 <Text className='text-blue-950 text-base font-rubix-semibold'>{pet.name}</Text>
             </View>
             <Text className='text-gray-500 text-lg font-rubix-light'>{date}</Text>

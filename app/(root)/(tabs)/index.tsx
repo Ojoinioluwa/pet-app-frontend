@@ -7,11 +7,10 @@ import { ActivityIndicator, FlatList, Image, SafeAreaView, StyleSheet, Text, Tou
 
 
 const HomePage = () => {
-  const {data: pets, isLoading: petLoading, error, isError, refetch} = useQuery({
+  const {data: pets, isLoading: petLoading, error, isError: petError, refetch} = useQuery({
     queryKey: ["listPets"],
     queryFn:ListPetsAPI,
   })
-  console.log(pets?.pets[0]._id)
 
   const user = {
     name: 'Jane Doe',
@@ -39,6 +38,15 @@ const HomePage = () => {
     )
   }
 
+  if (petError) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text className="text-red-500">
+          Failed to load pet information. Please try again.
+        </Text>
+      </View>
+    );
+  }
   return (
     <SafeAreaView className="flex-1 bg-gray-100 px-4 pt-6">
       {/* Header */}
@@ -86,7 +94,6 @@ const HomePage = () => {
         keyExtractor={item => item._id}
         horizontal
         showsHorizontalScrollIndicator={false}
-        // ItemSeparatorComponent={() => <View style={{ width: 4 }} />}
         contentContainerStyle={styles.contentContainerStyle}
         renderItem={({ item }) => (
           <PetCard

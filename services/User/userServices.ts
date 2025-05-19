@@ -59,6 +59,11 @@ export const GetProfileAPI = async () => {
     try {
         const user = await getUserFromStorage();
         const token = user?.token
+        console.log(user, "user")
+        if (!token) {
+            throw new Error("No user token found");
+        }
+
         const response = await axios.get(`${BASE_URL}/getProfile`, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -66,10 +71,37 @@ export const GetProfileAPI = async () => {
         })
         return response.data
     } catch (error) {
-        if(isAxiosError(error)){
+        if (isAxiosError(error)) {
             console.log("GetprofileAPI error", error)
             throw new Error(`Failed to fetch user profile`)
         }
         throw error;
+    }
+}
+
+export const UpdateProfile = async ({ email, name, phoneNumber, address }: Partial<User>) => {
+    try {
+        const user = await getUserFromStorage()
+        const token = user?.token
+
+        const response = await axios.put(`${BASE_URL}`,
+            {
+                email,
+                name,
+                phoneNumber,
+                address
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+        return response.data
+    } catch (error) {
+        if (isAxiosError(error)) {
+            console.log("UpdateAPi error", error);
+            throw new Error("Failed to update the users profile");
+        }
+        throw error
     }
 }

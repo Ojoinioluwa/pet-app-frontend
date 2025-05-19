@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import {
   ActivityIndicator,
+  Button,
   FlatList,
   Image,
   Text,
@@ -25,63 +26,24 @@ type HealthRecord = {
 };
 
 const AllHealthRecords = () => {
-  const array: HealthRecord[] = [
-    {
-      _id: "1",
-      type: "Vaccination",
-      title: "Rabies Shot",
-      description: "Yearly rabies vaccination",
-      date: "2025-04-10",
-      veterinarian: "Dr. A",
-      cost: 25,
-    },
-    {
-      _id: "6",
-      type: "Vaccination",
-      title: "Rabies Shot",
-      description: "Yearly rabies vaccination",
-      date: "2025-04-10",
-      veterinarian: "Dr. A",
-      cost: 250,
-    },
-    {
-      _id: "2",
-      type: "Vaccination",
-      title: "Rabies Shot",
-      description: "Yearly rabies vaccination",
-      date: "2025-04-10",
-      veterinarian: "Dr. A",
-      cost: 250,
-    },
-    {
-      _id: "3",
-      type: "Vaccination",
-      title: "Rabies Shot",
-      description: "Yearly rabies vaccination",
-      date: "2025-04-10",
-      veterinarian: "Dr. A",
-      cost: 250,
-    },
-    {
-      _id: "4",
-      type: "Vaccination",
-      title: "Rabies Shot",
-      description: "Yearly rabies vaccination",
-      date: "2025-04-10",
-      veterinarian: "Dr. A",
-      cost: 250,
-    },
-  ];
-
-  const { data, isPending } = useQuery({
+  const { data, isPending, isError, refetch } = useQuery({
     queryKey: ["AllHealthRecord"],
     queryFn: getHealthRecordByUserAPI,
   });
-  console.log(data, "inniop;,");
   if (isPending) {
     return (
       <View className="flex-1 justify-center items-center">
         <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+  if (isError) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text className="text-red-500 mb-3">
+          Failed to load health records.
+        </Text>
+        <Button title="Retry" onPress={refetch} />
       </View>
     );
   }
@@ -121,7 +83,7 @@ const AllHealthRecords = () => {
       </View>
 
       <FlatList
-         data={data.healthRecords}
+        data={data.healthRecords}
         keyExtractor={(item) => item._id.toString()}
         renderItem={({ item }) => (
           <HealthRecordCard
@@ -132,8 +94,8 @@ const AllHealthRecords = () => {
             veterinarian={item.veterinarian}
             cost={item.cost}
             pet={{
-              name: "Buddy",
-              avatarUri: item,
+              name: item.petId.name,
+              image: item.petId.image,
             }}
             id={item._id}
           />

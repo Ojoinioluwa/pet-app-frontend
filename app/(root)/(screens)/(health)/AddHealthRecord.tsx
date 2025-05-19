@@ -22,7 +22,7 @@ import * as Yup from "yup";
 const validationSchema = Yup.object({
   title: Yup.string().required("Title field is required"),
   type: Yup.string()
-    .oneOf(["Checkup", "Treatment", "Deworming", "Vaccination"])
+    .oneOf(["checkup", "treatment", "deworming", "vaccination"])
     .required("Type field is required"),
   description: Yup.string().required("Description is required"),
   cost: Yup.string().required("Cost is required"),
@@ -134,10 +134,10 @@ const AddHealthRecord = () => {
                 style={{ backgroundColor: "white", borderRadius: 100 }}
               >
                 <Picker.Item label="Select Health Type" value="" />
-                <Picker.Item label="Vaccination" value="Vaccination" />
-                <Picker.Item label="Deworming" value="Deworming" />
-                <Picker.Item label="Treatment" value="Treatment" />
-                <Picker.Item label="Checkup" value="Checkup" />
+                <Picker.Item label="Vaccination" value="vaccination" />
+                <Picker.Item label="Deworming" value="deworming" />
+                <Picker.Item label="Treatment" value="treatment" />
+                <Picker.Item label="Checkup" value="checkup" />
               </Picker>
             </View>
             {formik.touched.type && formik.errors.type && (

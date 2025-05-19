@@ -194,7 +194,7 @@ useFocusEffect(
             Upcoming Reminders
           </Text>
           {reminderData?.reminders?.length > 0 && reminderData !== undefined ? (
-            reminderData.reminders.map((reminder: Reminder) => (
+            reminderData.reminders.map((reminder: any) => (
               <View key={reminder._id} className="bg-white rounded-lg p-3 mb-3">
                 <Text className="text-lg font-rubix-semibold text-blue-950">
                   {reminder.title}

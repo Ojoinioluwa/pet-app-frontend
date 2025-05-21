@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#172554"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.ojay_05.petApp"
     },
     "web": {
       "bundler": "metro",
@@ -34,21 +35,29 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      ["expo-font", {
-        "fonts": [
-          "./assets/fonts/Rubik-Bold.ttf",
-          "./assets/fonts/Rubik-ExtraBold.ttf",
-         "./assets/fonts/Rubik-Light.ttf",  
-         "./assets/fonts/Rubik-Medium.ttf",  
-         "./assets/fonts/Rubik-Regular.ttf",  
-         "./assets/fonts/Rubik-SemiBold.ttf",  
-         "./assets/fonts/SpaceMono-Regular.ttf"
-        ]
-        } 
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Rubik-Bold.ttf",
+            "./assets/fonts/Rubik-ExtraBold.ttf",
+            "./assets/fonts/Rubik-Light.ttf",
+            "./assets/fonts/Rubik-Medium.ttf",
+            "./assets/fonts/Rubik-Regular.ttf",
+            "./assets/fonts/Rubik-SemiBold.ttf",
+            "./assets/fonts/SpaceMono-Regular.ttf"
+          ]
+        }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "280fa9f6-eef6-4008-8cb3-07bb4f50f25b"
+      }
     }
   }
 }

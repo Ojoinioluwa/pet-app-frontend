@@ -1,11 +1,29 @@
 import Images from "@/constants/images";
-import { router } from "expo-router";
-import React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
+import React, { useEffect } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 
 const LandingPage = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const user = await AsyncStorage.getItem("user");
+        if (user) {
+          // User exists → go to home
+          router.replace("/");
+        }
+      } catch (error) {
+        console.error("Error checking user:", error);
+      }
+    };
+
+    checkUser();
+  }, []);
 
   
   return (
@@ -24,7 +42,6 @@ const LandingPage = () => {
           />
         </View>
         <TouchableOpacity onPress={()=> {
-          console.log("Get Started");
           router.push("/Register")
           }} className="bg-blue-950 px-2 py-5 rounded-lg w-full flex items-center mt-10">
           <Text className="text-white font-rubik-bold text-2xl">Get Started</Text>

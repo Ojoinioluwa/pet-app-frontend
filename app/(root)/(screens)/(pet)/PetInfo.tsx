@@ -4,7 +4,14 @@ import { GetRemindersForPetAPI } from "@/services/reminder/reminderServices";
 import { useQuery } from "@tanstack/react-query";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import React, { useCallback } from "react";
-import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface HealthRecord {
@@ -31,41 +38,50 @@ const PetInfo = () => {
   const { id } = useLocalSearchParams();
   const petId = Array.isArray(id) ? id[0] : id;
 
-  const { data: petData, refetch: refetchPet, isPending:petPending } = useQuery({
-  queryKey: ["petInfo", petId],
-  queryFn: () => GetPetByIdAPI({ petId }),
-  enabled: !!petId,
-});
+  const {
+    data: petData,
+    refetch: refetchPet,
+    isPending: petPending,
+  } = useQuery({
+    queryKey: ["petInfo", petId],
+    queryFn: () => GetPetByIdAPI({ petId }),
+    enabled: !!petId,
+  });
 
-const { data: healthInfo, refetch: refetchHealth, isPending: healthPending } = useQuery({
-  queryKey: ["HealthRecord", petId],
-  queryFn: () => getHealthDetailsAPI({ petId }),
-  enabled: !!petId,
-});
+  const {
+    data: healthInfo,
+    refetch: refetchHealth,
+    isPending: healthPending,
+  } = useQuery({
+    queryKey: ["HealthRecord", petId],
+    queryFn: () => getHealthDetailsAPI({ petId }),
+    enabled: !!petId,
+  });
 
-const { data: reminderData, refetch: refetchReminder, isPending: reminderPending } = useQuery({
-  queryKey: ["ReminderRecord", petId],
-  queryFn: () => GetRemindersForPetAPI({ petId }),
-  enabled: !!petId,
-});
+  const {
+    data: reminderData,
+    refetch: refetchReminder,
+    isPending: reminderPending,
+  } = useQuery({
+    queryKey: ["ReminderRecord", petId],
+    queryFn: () => GetRemindersForPetAPI({ petId }),
+    enabled: !!petId,
+  });
 
+  useFocusEffect(
+    useCallback(() => {
+      refetchPet();
+      refetchHealth();
+      refetchReminder();
+    }, [refetchPet, refetchHealth, refetchReminder])
+  );
 
-useFocusEffect(
-  useCallback(() => {
-    refetchPet();
-    refetchHealth();
-    refetchReminder();
-  }, [refetchPet, refetchHealth, refetchReminder])
-);
-
-
-
-  if(petPending || healthPending || reminderPending){
+  if (petPending || healthPending || reminderPending) {
     return (
       <View className="flex-1 justify-center items-center">
         <ActivityIndicator size="large" />
       </View>
-    )
+    );
   }
 
   return (
@@ -119,12 +135,14 @@ useFocusEffect(
             </TouchableOpacity>
             <TouchableOpacity
               className="border-blue-950 border bg-white rounded-lg p-3 mt-5 w-1/2"
-              onPress={() => router.push({
-                pathname: "/HealthHistory",
-                params: {
-                  id: petId
-                }
-              })}
+              onPress={() =>
+                router.push({
+                  pathname: "/HealthHistory",
+                  params: {
+                    id: petId,
+                  },
+                })
+              }
             >
               <Text className="text-blue-950 text-center text-lg font-rubix-medium">
                 View History
@@ -149,12 +167,14 @@ useFocusEffect(
             </TouchableOpacity>
             <TouchableOpacity
               className="bg-blue-950 rounded-lg p-3 mt-5 w-1/2"
-              onPress={() => router.push({
-                pathname: "/RemindersPet",
-                params: {
-                  id: petId
-                }
-              })}
+              onPress={() =>
+                router.push({
+                  pathname: "/RemindersPet",
+                  params: {
+                    id: petId,
+                  },
+                })
+              }
             >
               <Text className="text-white text-center text-lg font-rubix-medium">
                 View Reminders
@@ -181,11 +201,25 @@ useFocusEffect(
               </View>
             ))
           ) : (
-            <View className="bg-white rounded-lg p-3 mb-3">
-              <Text className="text-red-500 text-base">
-                Pet does not have any Health Data yet Add Health Record for you
-                pet
+            <View className="items-center justify-center mt-12 px-4">
+              {/* Icon or Illustration */}
+              <Text className="text-7xl mb-4">🩺</Text>
+
+              {/* Message */}
+              <Text className="text-lg font-bold text-gray-700 mb-1 text-center">
+                No Health Records Found
               </Text>
+              <Text className="text-sm text-gray-500 text-center mb-4">
+                Keep track of your pet’s medical history. Add your first health
+                record to get started.
+              </Text>
+
+              {/* Call-to-Action */}
+              <TouchableOpacity className="bg-green-500 px-5 py-3 rounded-full">
+                <Text className="text-white font-semibold">
+                  Add Health Record
+                </Text>
+              </TouchableOpacity>
             </View>
           )}
 
@@ -208,9 +242,17 @@ useFocusEffect(
               </View>
             ))
           ) : (
-            <View className="bg-white rounded-lg p-3 mb-3">
-              <Text className="text-red-500 text-base">
-                Pet does not have any Reminders yet. Add one for your pet.
+            <View className="bg-white rounded-xl p-6 items-center justify-center mb-4 shadow-sm">
+              {/* Icon or Image */}
+              <Text className="text-6xl mb-3">📭</Text>
+
+              {/* Message */}
+              <Text className="text-lg font-semibold text-gray-700 mb-1 text-center">
+                No Reminders Yet
+              </Text>
+              <Text className="text-sm text-gray-500 mb-4 text-center px-2">
+                You haven't added any reminders for your pet. Stay on top of vet
+                visits, vaccinations, and medications by setting one now.
               </Text>
             </View>
           )}

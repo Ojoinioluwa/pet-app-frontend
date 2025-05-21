@@ -91,7 +91,7 @@ const Login = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <ScrollView className="flex-1 bg-white">
+      <ScrollView className="bg-white">
         <View className="px-2 pt-10">
           {/* Login Image */}
           <Image

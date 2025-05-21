@@ -2,9 +2,10 @@ import HealthRecordCard from "@/components/HealthRecordCard";
 import { getHealthDetailsAPI } from "@/services/health/healthService";
 import { Picker } from "@react-native-picker/picker";
 import { useQuery } from "@tanstack/react-query";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Button, FlatList, Text, View } from "react-native";
+import { ActivityIndicator, Button, FlatList, Text, TouchableOpacity, View } from "react-native";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type HealthRecord = {
@@ -35,7 +36,9 @@ const HealthHistory = () => {
   useEffect(() => {
     const filtered =
       type && type !== ""
-        ? data?.healthRecords.filter((record: HealthRecord) => record.type === type)
+        ? data?.healthRecords.filter(
+            (record: HealthRecord) => record.type === type
+          )
         : data?.healthRecords;
     setFilteredData(filtered);
   }, [type, data]);
@@ -47,14 +50,16 @@ const HealthHistory = () => {
       </View>
     );
   }
-if (isError) {
-  return (
-    <View className="flex-1 justify-center items-center">
-      <Text className="text-red-500 mb-3">Failed to load health records.</Text>
-      <Button title="Retry" onPress={refetch} />
-    </View>
-  );
-}
+  if (isError) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text className="text-red-500 mb-3">
+          Failed to load health records.
+        </Text>
+        <Button title="Retry" onPress={refetch} />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 py-3">
@@ -66,7 +71,7 @@ if (isError) {
           <Picker
             className="w-full mt-5 bg-white rounded-lg"
             selectedValue={type}
-            onValueChange={(itemValue, itemIndex) => setType(itemValue)}
+            onValueChange={(itemValue) => setType(itemValue)}
           >
             <Picker.Item label="Select Health Type" value="" />
             <Picker.Item label="Vaccination" value="vaccination" />
@@ -79,9 +84,33 @@ if (isError) {
           data={filteredData}
           keyExtractor={(item) => item._id.toString()}
           ListEmptyComponent={
-            <Text className="text-center text-gray-500 mt-4">
-              No health records found for this type.
-            </Text>
+            <View className="items-center justify-center mt-12 px-4">
+              {/* Icon or Illustration */}
+              <Text className="text-7xl mb-4">🩺</Text>
+
+              {/* Message */}
+              <Text className="text-lg font-bold text-gray-700 mb-1 text-center">
+                No Health Records Found
+              </Text>
+              <Text className="text-sm text-gray-500 text-center mb-4">
+                Keep track of your pet’s medical history. Add your first health
+                record to get started.
+              </Text>
+
+              {/* Call-to-Action */}
+              <TouchableOpacity onPress={()=>{
+                router.push({
+                  pathname: "/AddHealthRecord",
+                  params: {
+                    id: petId
+                  }
+                })
+              }} className="bg-green-500 px-5 py-3 rounded-full">
+                <Text className="text-white font-semibold">
+                  Add Health Record
+                </Text>
+              </TouchableOpacity>
+            </View>
           }
           renderItem={({ item }: { item: HealthRecord }) => (
             <HealthRecordCard

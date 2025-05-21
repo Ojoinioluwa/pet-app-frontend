@@ -59,7 +59,6 @@ export const GetProfileAPI = async () => {
     try {
         const user = await getUserFromStorage();
         const token = user?.token
-        console.log(user, "user")
         if (!token) {
             throw new Error("No user token found");
         }

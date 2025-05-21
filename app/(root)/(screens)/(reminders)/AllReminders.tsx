@@ -66,9 +66,17 @@ const AllReminders = () => {
             />
           ))
         ) : (
-          <View className="bg-white rounded-lg p-3 mb-3">
-            <Text className="text-red-500 text-base">
-              Pet does not have any reminder yet Add reminders for your pet
+          <View className="bg-white rounded-xl p-6 items-center justify-center mb-4 shadow-sm">
+            {/* Icon or Image */}
+            <Text className="text-6xl mb-3">📭</Text>
+
+            {/* Message */}
+            <Text className="text-lg font-semibold text-gray-700 mb-1 text-center">
+              No Reminders Yet
+            </Text>
+            <Text className="text-sm text-gray-500 mb-4 text-center px-2">
+              You haven't added any reminders for your pet. Stay on top of vet
+              visits, vaccinations, and medications by setting one now.
             </Text>
           </View>
         )}

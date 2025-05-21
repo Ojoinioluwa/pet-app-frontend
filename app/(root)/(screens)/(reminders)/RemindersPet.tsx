@@ -18,39 +18,37 @@ interface Reminder {
   };
 }
 
-
 const RemindersPet = () => {
   const { id } = useLocalSearchParams();
   const petId = Array.isArray(id) ? id[0] : id;
   const { data, isLoading, refetch, isError } = useQuery({
     queryKey: ["PetReminder", petId],
     queryFn: () => GetRemindersForPetAPI({ petId }),
-    enabled: !!petId
+    enabled: !!petId,
   });
 
   useFocusEffect(
     useCallback(() => {
-      refetch(); 
+      refetch();
     }, [refetch])
   );
 
-
-  if(isLoading){
+  if (isLoading) {
     return (
       <View className="flex-1 justify-center items-center">
         <ActivityIndicator size="large" />
       </View>
-    )
+    );
   }
   if (isError) {
-      return (
-        <View className="flex-1 justify-center items-center">
-          <Text className="text-red-500">
-            Failed to load reminders. Please try again.
-          </Text>
-        </View>
-      );
-    }
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text className="text-red-500">
+          Failed to load reminders. Please try again.
+        </Text>
+      </View>
+    );
+  }
   return (
     <SafeAreaView className="flex-1 bg-gray-200">
       <ScrollView className="flex-1 px-4 mt-10">
@@ -70,9 +68,17 @@ const RemindersPet = () => {
             />
           ))
         ) : (
-          <View className="bg-white rounded-lg p-3 mb-3">
-            <Text className="text-red-500 text-base">
-              Pet does not have any reminder yet Add reminders for your pet
+          <View className="bg-white rounded-xl p-6 items-center justify-center mb-4 shadow-sm">
+            {/* Icon or Image */}
+            <Text className="text-6xl mb-3">📭</Text>
+
+            {/* Message */}
+            <Text className="text-lg font-semibold text-gray-700 mb-1 text-center">
+              No Reminders Yet
+            </Text>
+            <Text className="text-sm text-gray-500 mb-4 text-center px-2">
+              You haven't added any reminders for your pet. Stay on top of vet
+              visits, vaccinations, and medications by setting one now.
             </Text>
           </View>
         )}

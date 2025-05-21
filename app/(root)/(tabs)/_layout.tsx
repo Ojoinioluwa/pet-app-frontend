@@ -1,4 +1,5 @@
 import icons from '@/constants/icons';
+import images from '@/constants/images';
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Image, View } from 'react-native';
@@ -41,7 +42,7 @@ const TabsLayout = () => {
         options={{
           title: "List Pets",
           headerShown: false,
-          tabBarIcon: ({focused})=> <TabIcon focused={focused} icon={icons.filter} />
+          tabBarIcon: ({focused})=> <TabIcon focused={focused} icon={images.list} />
         }}
       />
       <Tabs.Screen 
@@ -49,7 +50,7 @@ const TabsLayout = () => {
         options={{
           title: "List Pets",
           headerShown: false,
-          tabBarIcon: ({focused})=> <TabIcon focused={focused} icon={icons.edit} />
+          tabBarIcon: ({focused})=> <TabIcon focused={focused} icon={images.add} />
         }}
       />
       <Tabs.Screen 
@@ -57,7 +58,7 @@ const TabsLayout = () => {
         options={{
           title: "Settings",
           headerShown: false,
-          tabBarIcon: ({focused})=> <TabIcon focused={focused} icon={icons.people} />
+          tabBarIcon: ({focused})=> <TabIcon focused={focused} icon={images.settings} />
         }}
       />
 

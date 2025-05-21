@@ -1,7 +1,15 @@
-import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { useEffect } from "react";
+import { ActivityIndicator, View } from "react-native";
 
 export default function Index() {
+  const router = useRouter();
+
+  useEffect(() => {
+    // Redirect to LandingPage as soon as the index loads
+    router.replace("/LandingPage");
+  }, []);
+
   return (
     <View
       style={{
@@ -10,15 +18,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-      <Link href="/LandingPage" className="px-2 py-3 text-white text-2xl bg-blue-950 mb-3">Landing</Link>
-      <Link href="/Login" className="px-2 py-3 text-white text-2xl bg-blue-950 mb-3">Login</Link>
-      <Link href="/AddPet" className="px-2 py-3 text-white text-2xl bg-blue-950 mb-3">Add pet</Link>
-      <Link href="/AddHealthRecord" className="px-2 py-3 text-white text-2xl bg-blue-950 mb-3">Add Health record</Link>
-      <Link href="/PetInfo" className="px-2 py-3 text-white text-2xl bg-blue-950 mb-3">Pet info</Link>
-      <Link href="/Settings" className="px-2 py-3 text-white text-2xl bg-blue-950 mb-3">Settings</Link>
-      <Link href="/AddReminder" className="px-2 py-3 text-white text-2xl bg-blue-950 mb-3">Add reminder</Link>
-
+      <ActivityIndicator size="large" color="#0061FF" />
     </View>
   );
 }

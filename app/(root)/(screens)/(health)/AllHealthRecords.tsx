@@ -3,7 +3,7 @@ import icons from "@/constants/icons";
 import { getHealthRecordByUserAPI } from "@/services/health/healthService";
 import { Picker } from "@react-native-picker/picker";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import {
   ActivityIndicator,
   Button,
@@ -11,6 +11,7 @@ import {
   Image,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -26,6 +27,7 @@ type HealthRecord = {
 };
 
 const AllHealthRecords = () => {
+  const [type, setType] = useState("")
   const { data, isPending, isError, refetch } = useQuery({
     queryKey: ["AllHealthRecord"],
     queryFn: getHealthRecordByUserAPI,
@@ -70,8 +72,8 @@ const AllHealthRecords = () => {
         <View className="bg-white rounded-lg mt-5">
           <Picker
             className="w-full mt-5 bg-white rounded-lg"
-            selectedValue="all"
-            onValueChange={(itemValue, itemIndex) => console.log(itemValue)}
+            selectedValue={type}
+            onValueChange={(itemValue) => setType(itemValue)}
           >
             <Picker.Item label="Select Health Type" value="" />
             <Picker.Item label="Vaccination" value="vaccination" />
@@ -82,25 +84,45 @@ const AllHealthRecords = () => {
         </View>
       </View>
 
-      <FlatList
-        data={data.healthRecords}
-        keyExtractor={(item) => item._id.toString()}
-        renderItem={({ item }) => (
-          <HealthRecordCard
-            type={item.type}
-            title={item.title}
-            description={item.description}
-            date={item.date}
-            veterinarian={item.veterinarian}
-            cost={item.cost}
-            pet={{
-              name: item.petId.name,
-              image: item.petId.image,
-            }}
-            id={item._id}
-          />
-        )}
-      />
+    <FlatList
+  data={data.healthRecords}
+  keyExtractor={(item) => item._id.toString()}
+  renderItem={({ item }) => (
+    <HealthRecordCard
+      type={item.type}
+      title={item.title}
+      description={item.description}
+      date={item.date}
+      veterinarian={item.veterinarian}
+      cost={item.cost}
+      pet={{
+        name: item.petId.name,
+        image: item.petId.image,
+      }}
+      id={item._id}
+    />
+  )}
+  ListEmptyComponent={() => (
+    <View className="items-center justify-center mt-12 px-4">
+      {/* Icon or Illustration */}
+      <Text className="text-7xl mb-4">🩺</Text>
+
+      {/* Message */}
+      <Text className="text-lg font-bold text-gray-700 mb-1 text-center">
+        No Health Records Found
+      </Text>
+      <Text className="text-sm text-gray-500 text-center mb-4">
+        Keep track of your pet’s medical history. Add your first health record to get started.
+      </Text>
+
+      {/* Call-to-Action */}
+        <TouchableOpacity className="bg-green-500 px-5 py-3 rounded-full">
+          <Text className="text-white font-semibold">Add Health Record</Text>
+        </TouchableOpacity>
+    </View>
+  )}
+/>
+
     </SafeAreaView>
   );
 };

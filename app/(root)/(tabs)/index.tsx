@@ -14,14 +14,14 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
+
 
 const HomePage = () => {
   const {
     data: pets,
     isLoading: petLoading,
-    error,
     isError: petError,
     refetch: petRefetch,
   } = useQuery({
@@ -123,32 +123,44 @@ const HomePage = () => {
 
       {/* Pets Horizontal List */}
       <Text className="text-lg font-bold mb-2">Your Pets</Text>
-      {pets?.pets?.length === 0 && (
-        <Text className="text-gray-500 text-center">
-          You don't have any pets yet.
-        </Text>
-      )}
-
-      <FlatList
-        data={pets?.pets}
-        keyExtractor={(item) => item._id}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        initialNumToRender={5}
-        removeClippedSubviews={true}
-        contentContainerStyle={styles.contentContainerStyle}
-        renderItem={({ item }) => (
-          <PetCard
-            image={item.image}
-            name={item.name}
-            age={item.age}
-            breed={item.breed}
-            species={item.species}
-            width="fit"
-            petId={item._id}
+      {pets?.pets?.length === 0 ? (
+        <View className="items-center justify-center mt-10 px-5">
+          <Image
+            source={require("@/assets/images/no-pet.png")}
+            style={{ width: 200, height: 200 }}
+            resizeMode="contain"
           />
-        )}
-      />
+          <Text className="text-gray-600 text-lg mt-4 text-center">
+            You don't have any pets yet.
+          </Text>
+          <Link href="/AddPet" asChild>
+            <TouchableOpacity className="bg-blue-600 mt-6 px-6 py-3 rounded-full">
+              <Text className="text-white font-bold">+ Add Your First Pet</Text>
+            </TouchableOpacity>
+          </Link>
+        </View>
+      ) : (
+        <FlatList
+          data={pets?.pets}
+          keyExtractor={(item) => item._id}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          initialNumToRender={5}
+          removeClippedSubviews={true}
+          contentContainerStyle={styles.contentContainerStyle}
+          renderItem={({ item }) => (
+            <PetCard
+              image={item.image}
+              name={item.name}
+              age={item.age}
+              breed={item.breed}
+              species={item.species}
+              width="fit"
+              petId={item._id}
+            />
+          )}
+        />
+      )}
     </SafeAreaView>
   );
 };

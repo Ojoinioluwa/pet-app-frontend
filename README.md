@@ -59,8 +59,7 @@ The app uses Redux for managing global state and Tailwind CSS-inspired styling f
 ### Prerequisites
 
 - Node.js (>=14.x)  
-- npm or yarn  
-- Expo CLI (`npm install -g expo-cli`)  
+- npm or yarn   
 - A device/emulator or Expo Go app
 
 ### Installation

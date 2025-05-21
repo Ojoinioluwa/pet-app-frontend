@@ -72,18 +72,22 @@ npm install
 
 npx expo start
 ```
+--- 
+## Project structure
 
+```bash
 pet-app-frontend/
 ├── app/                  # Main app components and screens
 ├── assets/               # Static assets like images
 ├── components/           # Reusable UI components
 ├── constants/            # App-wide constants
-├── redux/                # Redux slices, store setup
-├── services/             # API calls and services
-├── utils/                # Utility functions/helpers
-├── app.json              
-├── package.json          # contains all dependencies
+├── redux/                # Redux slices and store configuration
+├── services/             # API services and endpoints
+├── utils/                # Helper functions
+├── App.js                # Entry point of the app
+├── package.json
 └── README.md
+```
 
 ## Usage
 - Launch the app and register a new account or log in.

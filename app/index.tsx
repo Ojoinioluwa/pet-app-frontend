@@ -18,6 +18,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
+      {/* to indicate loading when assests aren't ready */}
       <ActivityIndicator size="large" color="#0061FF" />
     </View>
   );

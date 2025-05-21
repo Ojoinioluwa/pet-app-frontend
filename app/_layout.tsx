@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 export default function RootLayout() {
 
   return (
+    // redux store
     <Provider store={store}>
       <AppWithStore />
     </Provider>

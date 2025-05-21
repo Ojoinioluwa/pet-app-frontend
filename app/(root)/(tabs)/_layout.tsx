@@ -5,6 +5,7 @@ import React from 'react';
 import { Image, View } from 'react-native';
 
 
+// tab icon component to ensure DRY
 const TabIcon = ({ focused, icon,  }: { focused: boolean; icon: any; }) => {
   return (
     <View className='flex-1 mt-3 flex flex-col items-center'>
@@ -21,6 +22,7 @@ const TabIcon = ({ focused, icon,  }: { focused: boolean; icon: any; }) => {
 
 const TabsLayout = () => {
   return (
+    // the tabs group
     <Tabs screenOptions={{
       tabBarShowLabel: false,
       tabBarStyle: {
@@ -29,6 +31,7 @@ const TabsLayout = () => {
         minHeight: 70,
       },
     }}>
+      {/* the home page screen  */}
       <Tabs.Screen 
         name='index'
         options={{
@@ -37,6 +40,7 @@ const TabsLayout = () => {
           tabBarIcon: ({focused})=> <TabIcon focused={focused} icon={icons.home} />
         }}
       />
+      {/* the list pet screen */}
       <Tabs.Screen 
         name='ListPets'
         options={{
@@ -45,6 +49,7 @@ const TabsLayout = () => {
           tabBarIcon: ({focused})=> <TabIcon focused={focused} icon={images.list} />
         }}
       />
+      {/* add pet screen */}
       <Tabs.Screen 
         name='AddPet'
         options={{
@@ -53,6 +58,7 @@ const TabsLayout = () => {
           tabBarIcon: ({focused})=> <TabIcon focused={focused} icon={images.add} />
         }}
       />
+      {/* settings page screen */}
       <Tabs.Screen 
         name='Settings'
         options={{

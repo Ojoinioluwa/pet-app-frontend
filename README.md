@@ -1,50 +1,144 @@
-# Welcome to your Expo app 👋
+# Pet App Frontend
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is the frontend application for the **Pet App**, built with **React Native** and **Expo**. The app enables users to manage pet profiles, track pet health records, and set reminders related to pet care. It provides a clean, intuitive interface designed for both pet owners and caregivers.
 
-## Get started
+---
 
-1. Install dependencies
+## Table of Contents
 
-   ```bash
-   npm install
-   ```
+- [Project Overview](#project-overview)  
+- [Features](#features)  
+- [Tech Stack](#tech-stack)  
+- [Getting Started](#getting-started)  
+- [Project Structure](#project-structure)  
+- [Usage](#usage)  
+- [State Management](#state-management)  
+- [API Integration](#api-integration)  
+- [Contributing](#contributing)  
+- [License](#license)  
+- [Contact](#contact)  
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## Project Overview
 
-In the output, you'll find options to open the app in a
+The Pet App Frontend provides a mobile interface that interacts with a backend API to manage pets and their health data. Users can:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Register and log in  
+- Add and view pet profiles  
+- Record health data (vaccinations, treatments)  
+- Set and receive reminders for pet care tasks  
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+The app uses Redux for managing global state and Tailwind CSS-inspired styling for a responsive UI.
 
-## Get a fresh project
+---
 
-When you're ready, run:
+## Features
+
+- **User Authentication**: Secure login and registration flows  
+- **Pet Profiles**: Create, view, and update multiple pets per user  
+- **Health Records**: Log vaccinations, medical history, and other health-related info  
+- **Reminders**: Schedule alerts for medications, vet visits, or other important tasks  
+- **Responsive Design**: Works smoothly across multiple devices and screen sizes  
+
+---
+
+## Tech Stack
+
+- **React Native** – Cross-platform mobile framework  
+- **Expo** – Toolchain for building native apps  
+- **Redux Toolkit** – Efficient state management  
+- **Tailwind CSS (via NativeWind)** – Utility-first styling  
+- **Axios** – API requests  
+- **React Navigation** – App routing  
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (>=14.x)  
+- npm or yarn  
+- Expo CLI (`npm install -g expo-cli`)  
+- A device/emulator or Expo Go app
+
+### Installation
 
 ```bash
-npm run reset-project
-```
+git clone https://github.com/Ojoinioluwa/pet-app-frontend.git
+cd pet-app-frontend
+npm install
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+npx expo start
 
-## Learn more
+pet-app-frontend/
+├── app/                  # Main app components and screens
+├── assets/               # Static assets like images
+├── components/           # Reusable UI components
+├── constants/            # App-wide constants
+├── redux/                # Redux slices, store setup
+├── services/             # API calls and services
+├── utils/                # Utility functions/helpers
+├── app.json              
+├── package.json          # contains all dependencies
+└── README.md
 
-To learn more about developing your project with Expo, look at the following resources:
+## Usage
+- Launch the app and register a new account or log in.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- Add pets by specifying their details and uploading images.
 
-## Join the community
+- Access individual pet profiles to view or edit information.
 
-Join our community of developers creating universal apps.
+- Navigate to the Health section to add or view health records.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Use the Reminders feature to schedule pet care activities.
+
+## State Management
+- The app uses Redux Toolkit for global state management, including:
+
+- Authentication State: Logged-in user info and token storage
+
+- Pet Data: List of pets and current pet profile
+
+- Health Records: Fetched and posted health entries per pet
+
+- Reminders: Scheduled tasks and alert statuses
+
+- Redux slices are modular and located in the `redux/` directory.
+
+## API Integration
+
+All network requests are managed using **Axios**, with a centralized configuration for token-based authentication and error handling.
+
+- **Base URL:** Configured in the `services/` layer  
+- **Authentication:** Token sent via `Authorization` header  
+- **Error Handling:** Managed globally and per request  
+
+> **Note:** Ensure the backend server is running and accessible from your development device.
+
+---
+
+## Contributing
+
+Contributions are welcome!
+
+1. Fork the repository  
+2. Create a new branch  
+   ```bash
+   git checkout -b feature/your-feature-name
+3. git commit -m 'Add some feature'
+4. git push origin feature/your-feature-name
+
+
+## License
+This project is licensed under MIT License
+
+## Contact
+
+- **Author:** Ojoinioluwa
+- **GitHub:** [@Ojoinioluwa](https://github.com/Ojoinioluwa)
+- **Project Repo:** [Pet App Frontend](https://github.com/Ojoinioluwa/pet-app-frontend)
+
+

@@ -51,6 +51,7 @@ The app uses Redux for managing global state and Tailwind CSS-inspired styling f
 - **Tailwind CSS (via NativeWind)** – Utility-first styling  
 - **Axios** – API requests  
 - **React Navigation** – App routing  
+- **Tanstack Query** - To handle API calls
 
 ---
 
@@ -108,6 +109,8 @@ pet-app-frontend/
 
 - Redux slices are modular and located in the `redux/` directory.
 
+---
+
 ## API Integration
 
 All network requests are managed using **Axios**, with a centralized configuration for token-based authentication and error handling.
@@ -131,15 +134,19 @@ Contributions are welcome!
    git commit -m 'Add some feature'
    git push origin feature/your-feature-name
    ```
-
+---
 
 ## License
 This project is licensed under MIT License
+
+---
 
 ## Contact
 
 - **Author:** Ojoinioluwa
 - **GitHub:** [@Ojoinioluwa](https://github.com/Ojoinioluwa)
 - **Project Repo:** [Pet App Frontend](https://github.com/Ojoinioluwa/pet-app-frontend)
+- **Email:** [ojoinioluwa05@gmail.com](mailto:ojoinioluwa05@gmail.com)
+
 
 

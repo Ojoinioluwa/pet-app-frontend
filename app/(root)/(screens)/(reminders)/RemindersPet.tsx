@@ -3,7 +3,7 @@ import { GetRemindersForPetAPI } from "@/services/reminder/reminderServices";
 import { useQuery } from "@tanstack/react-query";
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import React, { useCallback } from "react";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Reminder {
@@ -46,6 +46,7 @@ const RemindersPet = () => {
         <Text className="text-red-500">
           Failed to load reminders. Please try again.
         </Text>
+        <TouchableOpacity className="px-3 py-4 bg-blue-950 text-white" onPress={refetch}>Retry</TouchableOpacity>
       </View>
     );
   }

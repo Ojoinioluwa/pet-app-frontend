@@ -64,6 +64,17 @@ const ListPet = () => {
     );
   }
 
+    if (isError) {
+      return (
+        <View className="flex-1 justify-center items-center">
+          <Text className="text-red-500">
+            Failed to load reminders. Please try again.
+          </Text>
+          <TouchableOpacity className="px-3 py-4 bg-blue-950 text-white" onPress={refetch}>Retry</TouchableOpacity>
+        </View>
+      );
+    }
+
   return (
     <SafeAreaView className="flex-1 bg-gray-200 pb-10">
       <ScrollView className="flex-1">

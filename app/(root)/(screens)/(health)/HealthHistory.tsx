@@ -4,7 +4,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useQuery } from "@tanstack/react-query";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Button, FlatList, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -56,7 +56,7 @@ const HealthHistory = () => {
         <Text className="text-red-500 mb-3">
           Failed to load health records.
         </Text>
-        <Button title="Retry" onPress={refetch} />
+        <TouchableOpacity className="px-3 py-4 bg-blue-950 text-white" onPress={refetch}>Retry</TouchableOpacity>
       </View>
     );
   }

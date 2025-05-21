@@ -6,13 +6,12 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
-  Button,
   FlatList,
   Image,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -45,7 +44,8 @@ const AllHealthRecords = () => {
         <Text className="text-red-500 mb-3">
           Failed to load health records.
         </Text>
-        <Button title="Retry" onPress={refetch} />
+        {/* <TouchableOpacity title="Retry" onPress={refetch} /> */}
+        <TouchableOpacity className="px-3 py-4 bg-blue-950" onPress={refetch}>Retry</TouchableOpacity>
       </View>
     );
   }

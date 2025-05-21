@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { ActivityIndicator, View } from 'react-native';
 import Toast from "react-native-toast-message";
 import { useDispatch } from 'react-redux';
+import ErrorBoundary from "./ErrorBoundary";
 
 const queryClient = new QueryClient();
 
@@ -50,8 +51,10 @@ export function AppWithStore() {
 
   return (
     <QueryClientProvider client={queryClient}>
+    <ErrorBoundary>
       <Stack screenOptions={{ headerShown: false }} />
       <Toast />
+    </ErrorBoundary>
     </QueryClientProvider>
   );
 }

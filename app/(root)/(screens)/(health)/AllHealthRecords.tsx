@@ -44,8 +44,8 @@ const AllHealthRecords = () => {
         <Text className="text-red-500 mb-3">
           Failed to load health records.
         </Text>
-        {/* <TouchableOpacity title="Retry" onPress={refetch} /> */}
-        <TouchableOpacity className="px-3 py-4 bg-blue-950" onPress={refetch}>Retry</TouchableOpacity>
+       
+        <TouchableOpacity className="px-3 py-4 bg-blue-950 text-white" onPress={refetch}>Retry</TouchableOpacity>
       </View>
     );
   }

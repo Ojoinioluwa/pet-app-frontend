@@ -129,12 +129,8 @@ Contributions are welcome!
 2. Create a new branch  
    ```bash
    git checkout -b feature/your-feature-name
-   ```
-   ```bash
-3. git commit -m 'Add some feature'
-   ```
-   ```bash
-4. git push origin feature/your-feature-name
+   git commit -m 'Add some feature'
+   git push origin feature/your-feature-name
    ```
 
 
